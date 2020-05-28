@@ -23,7 +23,8 @@ def gcd(a, b):
 
 	return div
 
-
+# Computes the Bezout coefficients of two integers and returns a list [u, x, v, y, d] 
+# such that ux + vy = d and d is the gcd of x, y.
 def Bezout(a, b):
 	a = int(a)
 	b = int(b)
