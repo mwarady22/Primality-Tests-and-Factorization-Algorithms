@@ -96,6 +96,31 @@ def CRT_multiple(xlistlist, mlist):
 	# print(outlist)
 	return outlist
 
+def CRT_ind(xlist, mlist):
+
+	x = xlist[0]
+	m = mlist[0]
+	j = 1
+
+	while j < len(xlist):
+		B = Bezout(m, mlist[j])
+		if B[4] != 1:
+			print(None)
+			return None
+		if B[1] == m:
+			u = B[0]
+			v = B[2]
+		else:
+			u = B[2]
+			v = B[0]
+		x = u * m * xlist[j] + v * mlist[j] * x
+		m = m * mlist[j]
+		x = x % m
+		j += 1
+
+	# print(x)
+	return x
+
 
 # Control
 
@@ -108,3 +133,5 @@ def CRT_multiple(xlistlist, mlist):
 
 # CRT_multiple([[6, 3, 2, 15], [144, 18, - 6, 1034], [1, 1, 1, 1], [0, 4, 109, 1729]], [7, 6, 11, 125])
 # CRT_multiple([[6, 3, 2, 15], [144, 18, - 6, 1034], [1, 1, 1, 1], [0, 4, 109, 1729]], [12, 6, 11, 125])
+
+# CRT_ind([6, 3, 2, 15], [7, 6, 11, 125])
