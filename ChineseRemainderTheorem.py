@@ -6,6 +6,9 @@ from EuclideanAlgorithm import *
 # If the moduli are not coprime, it will output 'None'.
 def CRT_basic(xlist, mlist): # takes in 2 lists, the first containing the integers and the second containing the moduli
 
+	if len(xlist) != len(mlist): # list lengths must match
+		return None
+
 	M = 1 # the value m_1 * m_2 * .... * m_n, starting as an empty product
 	for m in mlist:
 		M *= m
@@ -58,6 +61,10 @@ def CRT_precomp(mlist):
 # Single congruence computation using the advanced method.
 def CRT_comp(xlist, mlist, Clist):
 
+	if len(xlist) != len(mlist): # list lengths must match
+		# print(None)
+		return None
+
 	if Clist == None:
 		# print(None)
 		return None
@@ -98,6 +105,10 @@ def CRT_multiple(xlistlist, mlist):
 
 def CRT_ind(xlist, mlist):
 
+	if len(xlist) != len(mlist): # list lengths must match
+		# print(None)
+		return None
+
 	x = xlist[0]
 	m = mlist[0]
 	j = 1
@@ -105,7 +116,7 @@ def CRT_ind(xlist, mlist):
 	while j < len(xlist):
 		B = Bezout(m, mlist[j])
 		if B[4] != 1:
-			print(None)
+			# print(None)
 			return None
 		if B[1] == m:
 			u = B[0]
@@ -126,7 +137,7 @@ def CRT_ind(xlist, mlist):
 
 # CRT_basic(*sys.argv[1 : ])
 
-# CRT_basic([6, 3, 2], [7, 6, 11])
+# CRT_basic([6, 3, 2, 8], [7, 6, 11])
 
 # CRT_comp([6, 3, 2, 15], [7, 6, 11, 125], CRT_precomp([7, 6, 11, 125]))
 # CRT_comp([6, 3, 2, 15], [12, 6, 11, 125], CRT_precomp([12, 6, 11, 125]))
