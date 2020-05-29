@@ -46,9 +46,16 @@ def Bezout(a, b):
 		a, b = b, a
 		aneg, bneg = bneg, aneg
 
-	# a1 = a
-	# b1 = b
-
+	# Special cases
+	if a == 0:
+		return [0, a, 1, b, b]
+	elif b == 0:
+		return [1, a, 0, b, a]
+	elif a == 1:
+		return [1, a, 0, b, 1]
+	elif b == 1:
+		return [0, a, 1, b, 1]
+	
 	lst = []
 
 	while b != 0:
