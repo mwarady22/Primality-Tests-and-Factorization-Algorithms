@@ -132,7 +132,6 @@ def CRT_ind(xlist, mlist):
 	# print(x)
 	return x
 
-
 # Control
 
 # CRT_basic(*sys.argv[1 : ])
