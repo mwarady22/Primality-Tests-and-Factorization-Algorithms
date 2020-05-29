@@ -15,7 +15,7 @@ def CRT_basic(xlist, mlist): # takes in 2 lists, the first containing the intege
 		M_i = M / m_i
 		B = Bezout(M_i, m_i) # returns a list [u, x, v, y, d] such that ux + vy = d
 		if B[4] != 1: # in this case the m_i are not all coprime
-			print(None)
+			# print(None)
 			return None
 		if B[1] == M_i:
 			alist.append(B[0])
@@ -27,10 +27,10 @@ def CRT_basic(xlist, mlist): # takes in 2 lists, the first containing the intege
 		x += alist[j] * (M / mlist[j]) * xlist[j]
 	x = x % M
 
-	print(int(x))
+	# print(int(x))
 	return int(x)
 
-
+# Computes the Clist needed to compute multiple congruences mod the same mlist.
 def CRT_precomp(mlist):
 
 	Clist = [1]
@@ -55,7 +55,12 @@ def CRT_precomp(mlist):
 	# print(Clist)
 	return Clist
 
+# Single congruence computation using the advanced method.
 def CRT_comp(xlist, mlist, Clist):
+
+	if Clist == None:
+		# print(None)
+		return None
 
 	ylist = [xlist[0] % mlist[0]]
 	for j in range(1, len(mlist)):
@@ -71,32 +76,25 @@ def CRT_comp(xlist, mlist, Clist):
 		x *= mlist[l]
 		x += ylist[l]
 
-	print(x)
+	# print(x)
 	return x
 
-
+# Runs multiple congruence computatins using the advanced method.
 def CRT_multiple(xlistlist, mlist):
 
 	Clist = CRT_precomp(mlist)
+
+	if Clist == None:
+		# print(None)
+		return None
 
 	outlist = []
 
 	for xlist in xlistlist:
 		outlist.append(CRT_comp(xlist, mlist, Clist))
 
-	print(outlist)
+	# print(outlist)
 	return outlist
-
-
-
-
-
-# CRT_comp
-# CRT - combine while m_i stay same
-
-
-
-
 
 
 # Control
@@ -106,5 +104,7 @@ def CRT_multiple(xlistlist, mlist):
 # CRT_basic([6, 3, 2], [7, 6, 11])
 
 # CRT_comp([6, 3, 2, 15], [7, 6, 11, 125], CRT_precomp([7, 6, 11, 125]))
+# CRT_comp([6, 3, 2, 15], [12, 6, 11, 125], CRT_precomp([12, 6, 11, 125]))
 
 # CRT_multiple([[6, 3, 2, 15], [144, 18, - 6, 1034], [1, 1, 1, 1], [0, 4, 109, 1729]], [7, 6, 11, 125])
+# CRT_multiple([[6, 3, 2, 15], [144, 18, - 6, 1034], [1, 1, 1, 1], [0, 4, 109, 1729]], [12, 6, 11, 125])
