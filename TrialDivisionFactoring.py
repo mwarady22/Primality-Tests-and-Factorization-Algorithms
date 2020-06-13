@@ -49,6 +49,7 @@ def initialize(N, k, j, B, h, m, l, d, r):
 		i = - 1
 		m = - 1
 		l = floor(sqrt(N))
+		h = - 1
 		return nextprime(N, k, j, B, h, m, l, d, r)
 
 
@@ -108,5 +109,5 @@ def Trial_Complete_Factorization(N, B=lastelem):
 
 
 
-# print(Trial_Complete_Factorization(420))
-print(Trial_Factor(105))
+# print(Trial_Complete_Factorization(370745144))
+# print(Trial_Factor(105))
