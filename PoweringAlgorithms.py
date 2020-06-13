@@ -5,7 +5,6 @@ import sys
 def RLbin(g, n):
 
 	if n == 0:
-		# print(1)
 		return 1
 	elif n < 0:
 		N = - n
@@ -22,7 +21,6 @@ def RLbin(g, n):
 
 		N = floor(N / 2)
 		if N == 0:
-			# print(y)
 			return y
 		z *= z
 
@@ -33,7 +31,6 @@ def RLbin(g, n):
 def LRbin(g, n, e):
 
 	if n == 0:
-		# print(1)
 		return 1
 	elif n < 0:
 		N = - n
@@ -48,7 +45,6 @@ def LRbin(g, n, e):
 
 	while True:
 		if E == 1:
-			# print(y)
 			return y
 		else:
 			E = E / 2
@@ -58,8 +54,13 @@ def LRbin(g, n, e):
 			y *= z
 
 
+def calculate_e(n):
+	return floor(log(abs(n), 2))
+
+
 
 # Control
 
-# RLbin(2, -2)
-# LRbin(2, -3, 1)
+# print(RLbin(2, -2))
+# print(LRbin(2, -3, 1))
+# print(calculate_e(65))
