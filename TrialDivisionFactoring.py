@@ -25,15 +25,12 @@ elif lastpmod == 29:
 	j = 7
 
 
-# does not work
-# FIXME
-
 def Trial_Factor(N, B=lastelem): # Finds a factor of N of size up to B
 	h, m, l, d, r = 0, 0, 0, 0, 0
-	return initialize(N, k, j, B, h, m, l, d, r)
+	return initialize(N, k, j, B, h, m, l, d, r) # branches to step 1
 
 
-def initialize(N, k, j, B, h, m, l, d, r):
+def initialize(N, k, j, B, h, m, l, d, r): # step 1
 	if N <= 5:
 		if N == 1:
 			return [1]
@@ -50,42 +47,42 @@ def initialize(N, k, j, B, h, m, l, d, r):
 		m = - 1
 		l = floor(sqrt(N))
 		h = - 1
-		return nextprime(N, k, j, B, h, m, l, d, r)
+		return nextprime(N, k, j, B, h, m, l, d, r) # branches to step 2
 
 
-def nextprime(N, k, j, B, h, m, l, d, r):
+def nextprime(N, k, j, B, h, m, l, d, r): # step 2
 	m += 1
 	if m > k:
 		h = j - 1
-		return nextdivisor(N, k, j, B, h, m, l, d, r)
+		return nextdivisor(N, k, j, B, h, m, l, d, r) # branches to step 5
 	else:
 		d = primes[m]
-		return trialdivide(N, k, j, B, h, m, l, d, r)
+		return trialdivide(N, k, j, B, h, m, l, d, r) # branches to step 3
 	
 
-def trialdivide(N, k, j, B, h, m, l, d, r):
+def trialdivide(N, k, j, B, h, m, l, d, r): # step 3
 	r = N % d
 	if r == 0:
 		return [d]
-	return primecheck(N, k, j, B, h, m, l, d, r)
+	return primecheck(N, k, j, B, h, m, l, d, r) # branches to step 4
 	
 
-def primecheck(N, k, j, B, h, m, l, d, r):
+def primecheck(N, k, j, B, h, m, l, d, r): # step 4
 	if d >= l:
 		if N > 1:
 			return "prime"
 	if h < 0:
-		return nextprime(N, k, j, B, h, m, l, d, r)
-	return nextdivisor(N, k, j, B, h, m, l, d, r)
+		return nextprime(N, k, j, B, h, m, l, d, r) # branches to step 2
+	return nextdivisor(N, k, j, B, h, m, l, d, r) # branches to step 5
 
 
-def nextdivisor(N, k, j, B, h, m, l, d, r):
+def nextdivisor(N, k, j, B, h, m, l, d, r): # step 5
 	h = (h + 1) % 8
 	d = d + t[h]
 	if d > B:
 		return "remaining divisors are greater than " + B
 	else:
-		return trialdivide(N, k, j, B, h, m, l, d, r)
+		return trialdivide(N, k, j, B, h, m, l, d, r) # branches to step 3
 
 
 
@@ -109,5 +106,5 @@ def Trial_Complete_Factorization(N, B=lastelem):
 
 
 
-# print(Trial_Complete_Factorization(370745144))
-# print(Trial_Factor(105))
+# print(Trial_Complete_Factorization(2065762, 15))
+# print(Trial_Factor(2065762, 15))
