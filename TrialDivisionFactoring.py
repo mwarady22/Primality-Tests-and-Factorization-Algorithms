@@ -28,7 +28,7 @@ elif lastpmod == 29:
 # does not work
 # FIXME
 
-def Trial_Factor(N, B=lastelem):
+def Trial_Factor(N, B=lastelem): # Finds a factor of N of size up to B
 	h, m, l, d, r = 0, 0, 0, 0, 0
 	return initialize(N, k, j, B, h, m, l, d, r)
 
@@ -47,7 +47,7 @@ def initialize(N, k, j, B, h, m, l, d, r):
 			return [5]
 	else:
 		i = - 1
-		m = 0
+		m = - 1
 		l = floor(sqrt(N))
 		return nextprime(N, k, j, B, h, m, l, d, r)
 
@@ -65,7 +65,7 @@ def nextprime(N, k, j, B, h, m, l, d, r):
 def trialdivide(N, k, j, B, h, m, l, d, r):
 	r = N % d
 	if r == 0:
-		return d
+		return [d]
 	return primecheck(N, k, j, B, h, m, l, d, r)
 	
 
@@ -73,7 +73,7 @@ def primecheck(N, k, j, B, h, m, l, d, r):
 	if d >= l:
 		if N > 1:
 			return "prime"
-	elif h < 0:
+	if h < 0:
 		return nextprime(N, k, j, B, h, m, l, d, r)
 	return nextdivisor(N, k, j, B, h, m, l, d, r)
 
@@ -87,4 +87,26 @@ def nextdivisor(N, k, j, B, h, m, l, d, r):
 		return trialdivide(N, k, j, B, h, m, l, d, r)
 
 
-print(Trial_Factor(8))
+
+
+def Trial_Complete_Factorization(N, B=lastelem):
+	factorlist = []
+	factor = Trial_Factor(N, B)
+	while not isinstance(factor, str):
+		factorlist = factorlist + factor
+		for f in factor:
+			N = int(N / f)
+		factor = Trial_Factor(N, B)
+		if N == 1:
+			break
+	if factor == 'prime':
+		factorlist.append(N)
+		return factorlist
+	elif isinstance(factor, str):
+		notprime = factor[len(factor) - 1]
+		return factorlist, notprime
+
+
+
+# print(Trial_Complete_Factorization(420))
+print(Trial_Factor(105))
