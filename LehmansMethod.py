@@ -29,7 +29,7 @@ def loopk(N, B, k=0):
 def loopa(N, B, k, r, m):
 	low = 4 * k * N
 	a = IntSqrt(low)
-	if a**2 < low:
+	if a**2 < low: # find first integer a such that 4 * k * N <= a**2 < 4 * k * N + B**2
 		a += 1
 	while (a**2 < (4 * k * N + B**2)) and ((a % m) == (r % m)):
 		c = a**2 - 4 * k * N
@@ -39,4 +39,4 @@ def loopa(N, B, k, r, m):
 	return loopk(N, B, k)
 
 
-print(Lehman(25))
+# print(Lehman(25))
