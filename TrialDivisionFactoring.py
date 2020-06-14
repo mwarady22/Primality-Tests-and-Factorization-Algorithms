@@ -25,7 +25,7 @@ elif lastpmod == 29:
 	j = 7
 
 
-def Trial_Factor(N, B=lastelem): # Finds a factor of N of size up to B
+def TrialFactor(N, B=lastelem): # Finds a factor of N of size up to B
 	h, m, l, d, r = 0, 0, 0, 0, 0
 	return initialize(N, k, j, B, h, m, l, d, r) # branches to step 1
 
@@ -87,7 +87,7 @@ def nextdivisor(N, k, j, B, h, m, l, d, r): # step 5
 
 
 
-def Trial_Complete_Factorization(N, B=lastelem):
+def TrialCompleteFactorization(N, B=lastelem):
 	factorlist = []
 	factor = Trial_Factor(N, B)
 	while not isinstance(factor, str):
