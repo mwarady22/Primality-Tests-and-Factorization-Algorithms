@@ -1,7 +1,7 @@
 from sage.all import *
 import sys
 from TrialDivisionFactoring import *
-from Squares import *
+from PpowerTests import *
 from EuclideanAlgorithm import *
 
 def Lehman(N): # finds a factor of N
