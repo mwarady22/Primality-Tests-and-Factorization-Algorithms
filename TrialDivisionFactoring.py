@@ -4,7 +4,7 @@ from PrimesList import *
 
 t = [6, 4, 2, 4, 2, 4, 6, 2] # unknown why these numbers
 k = lastindex
-lastelem = primes[lastindex] # the last element of the list of primes
+lastelem = primelist[lastindex] # the last element of the list of primes
 lastpmod = lastelem % 30
 
 if lastpmod == 1:
@@ -56,7 +56,7 @@ def nextprime(N, k, j, B, h, m, l, d, r): # step 2
 		h = j - 1
 		return nextdivisor(N, k, j, B, h, m, l, d, r) # branches to step 5
 	else:
-		d = primes[m]
+		d = primelist[m]
 		return trialdivide(N, k, j, B, h, m, l, d, r) # branches to step 3
 	
 
