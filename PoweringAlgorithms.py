@@ -58,9 +58,31 @@ def calculate_e(n):
 	return floor(log(abs(n), 2))
 
 
+def PowerModm(g, n, m):
+	if n == 0:
+		return 1 % m
+	if n == 1:
+		return g % m
+
+	nbin = bin(n)[2:]
+	nbinlen = len(nbin)
+
+	g1 = g % m
+	l = [g1]
+	for j in range(1, nbinlen):
+		l.insert(0, (l[0]**2 % m))
+
+	product = 1
+	for k in range(0, nbinlen):
+		product = product * (l[k]**int(nbin[k])) % m
+
+	return product
+
+
 
 # Control
 
 # print(RLbin(2, -2))
 # print(LRbin(2, -3, 1))
 # print(calculate_e(65))
+# print(PowerModm(32254, 548522, 172522))
