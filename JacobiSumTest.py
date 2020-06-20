@@ -35,6 +35,3 @@ def findt(B):
 	while table[index]**2 <= B:
 		index += 1
 	return index
-
-
-
