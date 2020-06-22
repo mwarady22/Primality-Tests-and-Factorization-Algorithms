@@ -1,16 +1,20 @@
 from sage.all import *
 import sys
 from PoweringAlgorithms import *
+from PrimesList import *
 
 def PrimRoot(p): # finds number g that, taken to various powers, gives each residue mod p
 	a = 1
 	q = p - 1
 	plist = []
-	for j in range(2, floor(sqrt(q)) + 1): # make list of prime factors
-		if (q % j == 0):
-			while (q % j == 0):
-				q = int(q / j)
-			plist.append(j)
+	if q == 2:
+		plist.append(q)
+	else:
+		for j in range(2, floor(sqrt(q)) + 1): # make list of prime factors
+			if (q % j == 0):
+				while (q % j == 0):
+					q = int(q / j)
+				plist.append(j)
 	return initcheck(p, a, plist)
 
 def initcheck(p, a, plist): # check new possible primitive root
@@ -32,4 +36,4 @@ def finishedcheck(p, a, h, plist): # check if we have found a primitive root
 	else:
 		return checkph(p, a, h, plist) # keep checking exponents
 
-# print(PrimRoot(7))
+# print(PrimRoot(17))
