@@ -5,10 +5,6 @@ from PrimitiveRoot import *
 from PoweringAlgorithms import *
 UCF = UniversalCyclotomicField()
 
-# contains e(5040) (can use for numbers with 104 digits)
-# and e(720720) (can be used for numbers with 474 digits)
-etable = [15321986788854443284662612735663611380010431225771200, 2599265289938045790285087430718636500803510968991503583932015415681339876886274198699629634541272594255929473856752109528189646768583309952911477951292254958722748988899531120282182905307875781283119196897221941548215066799861837732382400]
-
 def ecalc(t):
 	if (t % 2 == 1):
 		return 2
@@ -31,32 +27,58 @@ def vpcalc(q, t): # v_q(t) denotes the highest exponent k such that q**k | t
 	return v
 
 
-def etablecalc(tablebound): # if you want a full table from t = 1 to t = tablebound
+def etablecalclarge(tablebound): # if you want a full table from t = 1 to t = tablebound >= 1000
 	table = []
 	index = 0
 	while index <= tablebound:
 		table.append(ecalc(index))
+		index += 1000
+	return table
+
+def etablecalcsmall(tablebound): # if you want a full table from t = 1 to t = tablebound < 1000
+	table = []
+	index = 0
+	while index <= tablebound:
+		table.append(ecalc(index))
+		index += 1
 	return table
 
 
-def Precomps(B):
-	et = findt(B)
-	if et == etable[0]:
-		t = 5040
+def Precomps(B): # use for B less than 1000000
+
+	if B < 1000:
+		tab = etablecalcsmall(B)
+		ind = 0
+		while tab[ind]**2 <= B:
+			ind += 1
+		et = tab[ind]
+		t = ind * 1000
 	else:
-		t = 720720
+		tab = etablecalclarge(B)
+		ind = 0
+		while tab[ind]**2 <= B:
+			ind += 1
+		et = tab[ind]
+		t = ind * 1000
 
 	h = 1
 	q =  primelist[h]
-	table
-	while q <= et:
+	table = []
+	while q <= floor(sqrt(et)):
 		if (et % q == 0): # finding primes q >= 3 that divide et
 			g, ftable = Jacobi1(q) #
-			k, chilist = Jacobi2(p, q) #
-			Jpq, j, J3, J2 =  Jacobi3(p, k, chilist, ftable)
-			table.append((q, g, ftable, Jpq, j, J3, J2))
+			l = 1
+			p = primelist[l]
+			while p <= (q - 1):
+				if ((q - 1) % p == 0):
+					k, chilist = Jacobi2(p, q)
+					Jpq, j, J3, J2 =  Jacobi3(p, q, k, chilist, ftable)
+					table.append((q, g, p, ftable, Jpq, j, J3, J2))
+				l += 1
+				p = primelist[l]
 		h += 1
 		q = primelist[h]
+	return table
 
 
 def findt(B):
@@ -68,7 +90,7 @@ def findt(B):
 	return 'table contains no item large enough for use with B'
 
 
-def Jacobi1(q): #
+def Jacobi1(q):
 	g = PrimRoot(q)
 	ftable = []
 	for x in range(1, q - 1):
@@ -81,32 +103,29 @@ def Jacobi1(q): #
 	return g, ftable
 
 
-def Jacobi2(p, q): #
+def Jacobi2(p, q):
 	k = vpcalc(p, q - 1)
-	print(k)
 	pk = LRbin(p, k, calculate_e(k))
 	chilist = []
 	for x in range(1, q - 1):
-		chilist.append(UCF.gen(pk, x))
+		chilist.append(UCF.gen(pk, (x % pk)))
 	return k, chilist
 
-def Jacobi3(p, k, chilist, ftable): # # figure out return
+def Jacobi3(p, q, k, chilist, ftable):
 	if (p >= 3) or ((p == 2) and (k == 3)):
 		Jpq = 0
 		for x in range(1, q - 1):
-			Jpq += chilist[x - 1] * chilist[ftable[x - 1]]
+			Jpq += chilist[x - 1] * chilist[ftable[x - 1] - 1]
 		return Jpq, None, None, None
 	elif (p == 2) and (k >= 3):
-		
 		Jpq = 0
 		for x in range(1, q - 1):
-			Jpq += chilist[x - 1] * chilist[ftable[x - 1]]
+			Jpq += chilist[x - 1] * chilist[ftable[x - 1] - 1]
 		
 		j = 0
 		for x in range(1, q - 1):
 			fx = ftable[x - 1]
 			zeta = UCF.gen(LRbin(2, k, calculate_e(k)), (2 * x + fx))
-			# summand = LRbin(zeta, 2 * x, calculate_e(2 * x)) * LRbin(zeta, fx, calculate_e(fx))
 			j += zeta
 
 		J3 = Jpq * j
@@ -127,5 +146,6 @@ def Jacobi3(p, k, chilist, ftable): # # figure out return
 # print(etable)
 # print(Jacobi1(101))
 # print(Jacobi2(17, 35))
+# print(Precomps(7921))
 
 # pages 463 - 464
