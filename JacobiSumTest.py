@@ -1,5 +1,6 @@
 from sage.all import *
 import sys
+from EuclideanAlgorithm import *
 from PrimesList import *
 from PrimitiveRoot import *
 from PoweringAlgorithms import *
@@ -78,7 +79,7 @@ def Precomps(B): # use for B less than 1000000
 				p = primelist[l]
 		h += 1
 		q = primelist[h]
-	return table
+	return t, et, table
 
 
 def findt(B):
@@ -138,6 +139,68 @@ def Jacobi3(p, q, k, chilist, ftable):
 		return Jpq, j, J3, J2
 
 
+def JacobiTest(N, t, et, table): # N <= B is a strong pseudo-prime in 20 randomly chosen bases
+	# 1 gcd
+	gcd = checkgcd(N, t, et)
+	if gcd > 1:
+		return 'composite'
+
+	# 2 init
+	# 3 loop on char
+	# 4a check *b p >= 3
+	# 4b check *b p = 2 and k >= 3
+	# 4c check *b p = 2 and k = 2
+	# 4d check *b p = 2 and k = 1
+	# 5 check Lp
+	# 6 induction
+
+def checkgcd(N, t, et):
+	return max(gcd(t, N), gcd(et, N))
+
+def initJacobi(N, t): #
+	l_p = [0, 0] # for p the jth prime dividing t insert 1 if p >= 3 and N**(p - 1) != 1 (mod p**2) else 0
+	h = 2
+	curprime = primelist[h]
+	while curprime <= floor(sqrt(t)):
+		print(curprime)
+		if (t % curprime == 0) and (PowerModm(N, curprime - 1, curprime**2) != 1):
+			l_p.append([curprime, 1])
+		else:
+			l_p.append([curprime, 0])
+		h += 1
+		curprime = primelist[h]
+	return l_p
+
+def chiloop(): #
+	# figure out p, q, k
+	if (p >= 3): # case 1
+		# 4a
+	elif (p == 2) and (k >= 3): # case 2
+		# 4b
+	elif (p == 2) and (k == 2): # case 3
+		# 4c
+	else: # (p == 2) and (k == 1) # case 4
+		# 4d
+
+def case1(p, k): #
+	E = []
+	pk = LRbin(p, k, calculate_e(k))
+	r = N % pk
+	for n in range(0, pk):
+		if (n % p != 0):
+			E.append(n)
+	theta = 0
+	
+	####
+
+
+
+def case2(k): # p = 2
+
+def case3(k): # p = 2
+
+def case4(): # p = 2, k = 1
+	
 
 
 
@@ -147,5 +210,8 @@ def Jacobi3(p, q, k, chilist, ftable):
 # print(Jacobi1(101))
 # print(Jacobi2(17, 35))
 # print(Precomps(7921))
+# print(initJacobi(1000, 1700))
+# print(JacobiTest(N, Precomps(B)))
 
 # pages 463 - 464
+# sigma 307 article
