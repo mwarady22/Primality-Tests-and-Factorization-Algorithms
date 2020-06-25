@@ -55,6 +55,8 @@ def LRbin(g, n, e):
 
 
 def calculate_e(n):
+	if n == 0:
+		return 0
 	return floor(log(abs(n), 2))
 
 
