@@ -3,6 +3,8 @@ import sys
 import random
 from TrialDivisionFactoring import *
 from Rabin_Miller import *
+from Legendre import *
+from SqrtModp import *
 
 def GKTest(N): #
 	h = 0
@@ -49,9 +51,38 @@ def mcheck(): # 5
 
 
 def findp(): # 6
-	
+	while True:
+		x = randint(0, Ni - 1)
+		K = Kronecker((x**3 + a * x + b), Ni)
+		if (K == 0) or (K == 1):
+			break
+	y2 = x**3 + a * x + b
+	y = SqrtModp(y2, Ni)
+	if isinstance(y, str):
+		return # 9
+	else:
+		return # 7
+
 
 def checkp(): # 7
+	P = E(x, y)
+	P1 = m * P
+	P2 = (m / q) * P
+	# http://sage-doc.sis.uta.fi/reference/curves/sage/schemes/elliptic_curves/ell_point.html
+	# 'arithmetic over'
+
+
+
+
+
+
+
+
+
+
+
+	
+
 
 def recurse(): # 8
 	h += 1
