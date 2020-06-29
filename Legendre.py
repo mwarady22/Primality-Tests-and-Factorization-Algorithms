@@ -35,7 +35,7 @@ def finishedcheck(a, b, k):
 	v = 0
 	while (a % 2 == 0):
 		v += 1
-		a = a / 2
+		a = int(a / 2)
 	if (v % 2 == 1):
 		exp = (b**2 - 1) / 8
 		k = (- 1)**exp * k
