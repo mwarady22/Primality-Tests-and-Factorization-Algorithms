@@ -1,6 +1,8 @@
 from sage.all import *
 import sys
 from PrimesList import *
+sys.setrecursionlimit(10**6)
+
 
 t = [6, 4, 2, 4, 2, 4, 6, 2]
 k = lastindex

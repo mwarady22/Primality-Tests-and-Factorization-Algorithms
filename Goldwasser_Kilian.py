@@ -24,8 +24,8 @@ def GKTest(N): #
 
 def Nismall(Ni, h): # 2
 	print('Nismall')
-	if Ni < 2**30:
-		t = TrialFactor(Ni, 2**15)
+	if Ni < 2**20:
+		t = TrialFactor(Ni, 2**10)
 		if not isinstance(t, str): # then it is not the case that Ni is prime or has only factors larger than 2**15
 			return backtrack(Ni, h)
 		return 'prime' #
@@ -115,4 +115,4 @@ def backtrack(Ni, h): # 9
 		h -= 1
 		return choosecurve(Ni, h) #
 
-print(GKTest(11037271757))
+print(GKTest(7368787))

@@ -2,9 +2,11 @@ from sage.all import *
 import sys
 import random
 from PoweringAlgorithms import *
+from TrialDivisionFactoring import *
 
 def RM(N):
-	if N % 2 == 0: # check if even
+	trialfactor = TrialFactor(N, 23)
+	if not isinstance(trialfactor, str): # check if has small factor
 		return 'composite'
 	return initialize(N) # branch to step 1
 
@@ -44,4 +46,4 @@ def repeat_test(N, q, t, c, b): # step 4
 	else:
 		return 'probably prime'
 
-# print(RM(2047))
+# print(RM(86028121))
