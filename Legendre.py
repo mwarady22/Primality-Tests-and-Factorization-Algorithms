@@ -43,10 +43,14 @@ def finishedcheck(a, b, k):
 
 def reciprocity(a, b, k):
 	exp = (a - 1) * (b - 1) / 4
+	flexp = floor(exp)
+	dec = exp - flexp
+	expmod2 = flexp % 2
+	exp = expmod2 + dec
 	k = (- 1)**exp * k
 	r = abs(a)
 	a = b % r
 	b = r
 	return finishedcheck(a, b, k)
 
-# print(Kronecker(-1, 5))
+# print(Kronecker(125548631, 5552145330))
