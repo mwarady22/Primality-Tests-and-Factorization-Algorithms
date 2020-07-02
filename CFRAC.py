@@ -47,7 +47,7 @@ def CFRAC(N): #
 		# print(k)
 		if bsmoothcheck(Ak2, k) == 1:
 			Q.append([Ak, abs(Ak2)])
-			print('added : ' + str([Ak, abs(Ak2)]))
+			print('added : ' + str([Ak, abs(Ak2)]) + '****************')
 		else:
 			print('did not add : ' + str([Ak, abs(Ak2)]))
 		# print('l + 1')
@@ -95,6 +95,8 @@ def CFRAC(N): #
 def collectbase(N): #
 	print('collectbase')
 	b = floor(e**(sqrt(ln(N) * ln(ln(N))) / 2)) # find bound for base primes
+	print('b')
+	print(b)
 	plist = [2] # collect base primes N <= b such that Kroencker(N, p) = 1
 	pindex = 1 # index 1 will start the loop at the second prime, 3
 	p = primelist[pindex]
@@ -178,7 +180,7 @@ def lindep(R, l): #
 	return xlist
 
 # print(CFRAC(10403))
-print(CFRAC(3053))
+# print(CFRAC(3053))
 # print(CFRAC(3599))
-# print(CFRAC(3054))
+print(CFRAC(3054))
 # print(CFRAC(3052))
