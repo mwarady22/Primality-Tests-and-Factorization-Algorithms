@@ -7,9 +7,6 @@ def SL(N): #
 	B = floor((L(N))**.5)
 	plist = getplist(B)
 	return SLinit(N) #
-	# D = Kinit(K, N)
-	# x, c, h = chooseform() #
-	# q, q1, l = nextprime() #
 
 
 
@@ -37,16 +34,19 @@ def Kinit(K, N): # 2
 	return # 3
 
 def chooseform(): # 3 #
-	####
+	########
+	x = fp
+	c = 0
+	h = 1
 	return # 4
 
 def nextprime(): # 4 #
 	h += 1
 	if h > k:
 		K += 1
-		return Kinit() #
+		return # 2
 	else:
-		q = plist[h]
+		q = plist[h - 1]
 		q1 = q
 		l = floor(B / q)
 		return # 5
@@ -74,3 +74,8 @@ def checksuccess(): # 6 #
 
 def checkfinished(): # 7 #
 	####
+	# find factorization of KN corresponding to x
+	# if factorization does not split N:
+		return # 3
+	# else:
+		return # nontrivial factor of N
