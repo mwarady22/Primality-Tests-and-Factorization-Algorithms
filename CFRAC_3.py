@@ -5,96 +5,68 @@ from Legendre import *
 from EuclideanAlgorithm import *
 
 def CFRAC(N): #
-	if N % 2 == 0:
-		return 2, int(N / 2)
-	s = sqrt(N - 2)
-	if s == int(s):
-		return 'Cannot use CFRAC on numbers of the form n**2 + 2.'
-	sqrtN = sqrt(N)
-	if floor(sqrtN)**2 == N:
-		return sqrtN, sqrtN
-	# cf = continued_fraction(sqrt(N))
-	F = QuadraticField(N)
-	sqrtNformatted = F(sqrt(N))
-	cf = continued_fraction(sqrtNformatted)
-	print(cf)
-	period = cf.period()
-	print(period)
+	print('CFRAC')
 	k = 1
-	factor0, factor1 = body(N, k, len(period))
-	while isinstance(factor0, str) or (factor0 == k) or (factor1 == k):
-		# change k
-		k += 1
-		while moebius(k) == 0:
-			k += 1
-		D = k * N
-		G = QuadraticField(D)
-		sqrtDformatted = G(sqrt(D))
-		cf1 = continued_fraction(sqrtDformatted)
-		period = cf1.period()
-		factor0, factor1 = body(D, k, len(period))
-	if (factor0 % k == 0):
-		factor0 = int(factor0 / k)
-	else:
-		factor1 = int(factor1 / k)
-	return factor0, factor1
-
-def body(N, k, length): #
-	print('body')
-	rootN = sqrt(N)
-	baselist, q = collectbase(N) # either returns a list of primes and the product of all those primes or a tuple containing a factorization
-	if not isinstance(baselist, list): # in this case a tuple containing a factorization was returned
-		return baselist, q # return the factorization
-	print('baselist')
-	print(baselist)
-	l = len(baselist)
-	a = 2 * floor(rootN)
-	y = floor(rootN)
+	a = 2 * floor(sqrt(N))
+	y = floor(sqrt(N))
 	z = 1
 	Epair = (1, 0)
 	Fpair = (0, 1)
-	counter = 0 #
+	return kloop(N, k, a, y, z, Epair, Fpair)
+
+def nextk(k): # calculates next smallest squarefree multiplier k
+	k += 1
+	while moebius(k) == 0:
+			k += 1
+	return k
+
+def calclooplen(D):
+	F = QuadraticField(D)
+	sqrtDformatted = F(sqrt(D))
+	cf = continued_fraction(sqrtDformatted)
+	preperiod = cf.preperiod()
+	period = cf.period()
+	return len(preperiod) + len(period)
+
+def kloop(N, k, a, y, z, Epair, Fpair): # 
+	print('kloop')
+	D = k * N
+	baselist, q = collectbase(D)
+	print('baselist')
+	print(baselist)
+	l = len(baselist)
+	looplen = calclooplen(D)
+	counter = 0
 	Q = [] # will store the pairs [Ak, abs(Ak**2)] such that Ak**2 can be factored over baselist (all mod N)
-	R = [] # will store the exponents of the factorization of each Ak2 in Q
-	while (len(Q) < l + 1) and counter < length: # need l + 1 equations to ensure linear dependence
+	while (len(Q) < l + 1) and (counter < looplen): # need l + 1 equations to ensure linear dependence
 		print('make Q : ' + str(counter))
-		Ak = None
-		Bk = None
-		a, y, z, Epair, Fpair, Ak, Bk = nextfraction(N, a, y, z, Epair, Fpair)
-		Ak2 = (Ak**2) % N
-		if Ak2 > 2 * rootN:
-			Ak2 -= N
-		elif Ak2 < - 2 * rootN:
-			Ak2 += N
+		rootD = sqrt(D)
+		a, y, z, Epair, Fpair, Ak, Bk = nextfraction(D, a, y, z, Epair, Fpair)
+		Ak2 = (Ak**2) % D
+		if Ak2 > 2 * rootD:
+			Ak2 -= D
+		elif Ak2 < - 2 * rootD:
+			Ak2 += D
 		if bsmoothcheck(Ak2, q) == 1:
 			Q.append([Ak, abs(Ak2)])
-			explist = basefactorize(Ak2, baselist)
-			evenexps = True
-			print('evenexps for : ' + str(explist))
-			for exp in explist:
-				if exp % 2 == 1:
-					print('odd : '+ str(exp))
-					evenexps = False
-					break
-			if evenexps == True:
-				x2 = Ak
-				yy = sqrt(Ak2)
-				ret = factor(N, x2, yy)
-				if ret[0] != N and ret[1] != N:
-					return ret
-			R.append(explist)
 			print('added : ' + str([Ak, abs(Ak2)]) + '****************')
 		else:
 			print('did not add : ' + str([Ak, abs(Ak2)]))
-		counter += 1 #
-	if counter == length:
-		return 'period too small', None
+		counter += 1
+
+	if not len(Q) == l + 1:
+		k = nextk(k)
+		print('k : ' + str(k))
+		return kloop(N, k, (2 * floor(sqrt(N))), floor(sqrt(N)), 1, (1, 0), (0, 1))
+	
+	R = [] # will store the exponents of the factorization of each Ak2 in Q
 	print('Q')
 	print(Q)
 	for pair in Q:
 		print('add to R')
 		Ak, Ak2 = pair
-		
+		explist = basefactorize(Ak2, baselist)
+		R.append(explist)
 	xlist = lindep(R, l)
 	x2 = 1
 	y2 = 1
@@ -108,25 +80,23 @@ def body(N, k, length): #
 	print('y2 : ' + str(y2))
 	print('y : ' + str(y))
 	print('x2 : ' + str(x2))
-	return factor(N, x2, y)
+	return factorize(D, x2, y)
 
 	
 def collectbase(N): #
 	print('collectbase')
 	b = floor(e**(sqrt(ln(N) * ln(ln(N))) / 2)) # find bound for base primes
-	print('b : ' + str(b))
+	print('b')
+	print(b)
 	plist = [2] # collect base primes N <= b such that Kroencker(N, p) = 1
 	pindex = 1 # index 1 will start the loop at the second prime, 3
 	p = primelist[pindex]
 	q = 2 # the product of the primes in the base
 	while p <= b:
 		print('build plist')
-		K = Kronecker(N, p)
-		if K == 1:
+		if Kronecker(N, p) == 1:
 			plist.append(p)
 			q *= p
-		elif K == 0:
-			return (p, int(N / p))
 		pindex += 1
 		p = primelist[pindex]
 	return plist, q #
@@ -176,6 +146,7 @@ def lindep(R, l): #
 	print('\n')
 	print(redM)
 	v = matrix([0] * l).transpose()
+	print(v)
 	xlist = [] # stores which exponent vectors are linearly dependent
 	for x in range(0, l + 1):
 		if redM[:,x] != v:
@@ -184,9 +155,8 @@ def lindep(R, l): #
 	print(xlist)
 	return xlist
 
-def factor(N, x2, y): # factor as x2 - y, x2 + y gcd with N
-	print('x2 : ' + str(x2))
-	print('y : ' + str(y))
+def factorize(N, x2, y): # factor as x2 - y, x2 + y gcd with N
+	print('factorize')
 	r0 = x2 + y
 	print('r0 : ' + str(r0))
 	r1 = x2 - y
@@ -195,15 +165,19 @@ def factor(N, x2, y): # factor as x2 - y, x2 + y gcd with N
 	f1 = gcd(r1, N)
 	return f0, f1
 
-# print(CFRAC(10403)) # 101 * 103
+# print(CFRAC(10403)) # 101 * 103 period 4
 # print(CFRAC(3053))
-# print(CFRAC(3599)) #
+print(CFRAC(3599)) # period 2
 # print(CFRAC(3054))
-# print(CFRAC(3052))
+# print(CFRAC(3052)) # period 10
 # print(CFRAC(2257))
 # print(CFRAC(9271)) #
-print(CFRAC(418679)) #
+# print(CFRAC(418679)) #
 # print(CFRAC(6426786497)) #
 # print(CFRAC(665059573553159)) #
 # print(CFRAC(729461128210276840421)) #
 # print(CFRAC(194551432662383450877400470563)) #
+
+
+
+# D = kN
