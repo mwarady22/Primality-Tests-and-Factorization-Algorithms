@@ -5,11 +5,11 @@ from SqrtModp import *
 from PowerTests import *
 
 def Cornacchia(p, d): # p prime, 0 < d < p, outputs solution to x**2 + d * y**2 = p or says there is none
-	k = Kronecker(- d, p)
+	k = Kronecker(- d, p) # determine if there can by a solution
 	if k == - 1:
 		return 'no solution'
 	x0 = SqrtModp(- d, p)
-	while x0 < p / 2:
+	while x0 < p / 2: # find number congruent to +-x0 between p / 2, p
 		x0 += p
 	while x0 > p:
 		x0 -= p
