@@ -23,15 +23,11 @@ def initialization(N):
 		print('case 1')
 		D = N
 		d = IntSqrt(D) # the floor of the square root of D
-		if d**2 == D:
-			return d
 		b = 2 * floor((d - 1) / 2) + 1
 	else:
 		print('case 2')
 		D = 4 * N
 		d = IntSqrt(D) # the floor of the square root of D
-		if (d**2 == D) and (d % 2 == 0):
-			return d / 2
 		b = 2 * floor(d / 2)
 	f = (1, b, (b**2 - D) / 4)
 	print(b)
@@ -53,6 +49,7 @@ def applyrho(N, D, d, b, f, Q, h, L):
 
 def rho(a, b, c, D):
 	print('rho')
+	c0 = c
 	if c < 0:
 		c = - c
 	r = - b % (2 * c)
@@ -66,7 +63,7 @@ def rho(a, b, c, D):
 			r += 2 * c
 		while (r >= sqrt(D)):
 			r -= 2 * c
-	rh = (c, r, (r**2 - D) / (4 * c))
+	rh = (c0, r, (r**2 - D) / (4 * c0))
 	return rh
 
 
