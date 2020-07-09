@@ -4,6 +4,7 @@ from Rabin_Miller import *
 from PowerTests import *
 
 def SQUFOF(N):
+	print('SQUFOF')
 	if N % 2 == 0:
 		return 2
 	rm = RM(N)
@@ -100,9 +101,9 @@ def initbackcycle(N, D, d, b, f, Q, h, L, a):
 	s = gcd(a, B, D)
 	if s > 1:
 		return s**2
-	g = (a, - B, aC)
+	g = (a, - B, a * C)
 	a, b, c = g
-	while not (abs(sqrt(D) - 2 * abs(a)) < b and b < sqrt(D)):
+	while not (abs(sqrt(D) - 2 * abs(c)) < b and b < sqrt(D)):
 		u, v, w = g
 		g = rho(u, v, w, D)
 	return backcycle(N, D, d, b, f, Q, h, L, a, g)
@@ -123,4 +124,4 @@ def backcycle(N, D, d, b, f, Q, h, L, a, g):
 
 
 
-# print(SQUFOF(1313))
+print(SQUFOF(105))
