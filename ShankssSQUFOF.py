@@ -36,8 +36,6 @@ def squaretest(Qk, q11, q63, q64, q65): # return 0 if square, 1 if not square
 	else:
 		return 0
 
-#############################################################################
-
 def init1(N, k, P0, Pj, Q0, Qh):
 	b0 = floor((P0 - Pj) / sqrt(Qh))
 	P0 = b0 * sqrt(Qh) + Pj
@@ -62,7 +60,7 @@ def outputcheck(N, k, Ph):
 	f = gcd(N, Ph)
 	if f != 1:
 		return f
-	# else:
+	else:
 		return SQUFOF(N, k + 1)
 
 
