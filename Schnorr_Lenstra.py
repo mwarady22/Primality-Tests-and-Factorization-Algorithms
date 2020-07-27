@@ -2,31 +2,28 @@ from sage.all import *
 import sys
 from PrimesList import *
 
-def SL(N): #
+def SL(N): # 1
 
 	B = floor((L(N))**.5)
 	plist = getplist(B)
-	return SLinit(N) #
+	K = 1
+	d = floor(ln(B))
+	return Kinit(N, B, plist, K, D) # 2
 
 
 
-def getplist(B):
+def getplist(B): # precompute a list of primes up to L(N)**.5
 	l = []
 	c = 0
 	while primelist[c] <= B:
 		l.append(primelist[c])
+		c += 1
 	return l
 
 def L(x):
 	return e**(sqrt(ln(x) * ln(ln(x))))
 
-def SLinit(N): # 1
-	B = floor((L(N))**.5)
-	K = 1
-	d = floor(ln(B))
-	return # 2
-
-def Kinit(K, N): # 2
+def Kinit(N, B, plist, K, D): # 2
 	if ((K * N % 4) == 3):
 		D = - K * N
 	else:
