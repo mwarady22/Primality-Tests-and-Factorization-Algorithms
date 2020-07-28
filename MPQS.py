@@ -52,3 +52,8 @@ def chooseB(): # choose B for polynomial Q(x) = A * x**2 + 2 * B * x + C #
 def chooseC(): # choose C for polynomial Q(x) = A * x**2 + 2 * B * x + C #
 	C = (B**2 - N) / A
 	return C
+
+def computeroots(): #
+	apk = SqrtModp(N, pk)
+	bpk = (- apk) %  pk
+	Ainverse = inverse_mod(A, pk)
