@@ -30,6 +30,8 @@ def chooseA(): # choose A for polynomial Q(x) = A * x**2 + 2 * B * x + C #
 		while True:
 			indexminus -= 1
 			indexplus += 1
+			if (indexminus < 0) and (indexplus >= len(primelist)):
+				# choose new M
 			if indexminus >= 0:
 				Aminus = primelist[indexminus]
 			if indexplus < len(primelist):
@@ -40,8 +42,6 @@ def chooseA(): # choose A for polynomial Q(x) = A * x**2 + 2 * B * x + C #
 			elif Kronecker(N, Aplus) == 1:
 				A = Aplus
 				break
-			if (indexminus >= 0) and (indexplus < len(primelist)):
-				# choose new M
 	return A
 
 def chooseB(): # choose B for polynomial Q(x) = A * x**2 + 2 * B * x + C #
