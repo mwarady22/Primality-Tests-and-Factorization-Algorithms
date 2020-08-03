@@ -7,4 +7,7 @@ def RootsModp(p, poly):
 	x = R.gen()
 	poly = x**4 + 10 * x + 4
 
+R = PolynomialRing(GF(2), 'x')
+x = R.gen()
+poly = x**4 + 10 * x + 4
 print(poly.roots())
