@@ -4,65 +4,50 @@ from PrimesList import *
 from Legendre import *
 
 
-def QS(N, mult=1):
+def QS(N, mult=1, counter=0):
+	print('mult : ' + str(mult))
+
 	baselist, q = collectbase(N) # list of base elements, product of all base elements
-	print('baselist')
 	print(baselist)
 	x = ZZ['x'].gen()
 	Qa = (x + ceil(sqrt(N)))**2 - N
 	l = []
 	q = []
-	for z in range(0, ceil(sqrt(N) * mult)):
+	ran = ceil(sqrt(N)) * mult
+	print('ran : ' + str(ran))
+	print('N :   ' + str(N))
+	if counter == 1:
+		return 'Cannot be solved with Qudratic Sieve, try Multiple Polynomial Quadratic Sieve'
+	if ran >= N:
+		counter += 1
+		ran = N
+	for z in range(0, ran):
 		Qaz = Qa(z)
 		l.append(Qaz)
-		q.append([z + 124, Qaz])
+		q.append([z + ceil(sqrt(N)), Qaz])
 	m = l.copy()
 	for p in baselist:
-		print('for ' + str(p))
 		w = Integers(p)['w'].gen()
 		Ya = (w + ceil(sqrt(N)))**2 - N
-		print('Ya')
-		print(Ya)
 		rootlist = Ya.roots()
-		print('rootlist')
-		print(rootlist)
 		
-		for root, mult in rootlist:
-			print('len(l)')
-			print(len(l))
+		for root, multiplicity in rootlist:
 			index = int(root)
-			print('index')
-			print(index)
-			counter = 0
-			print('index < len(l)')
-			print(index < len(l))
 			while index < len(l):
-				print('counter : ' + str(counter))
-				print('l')
-				print(l)
-				print('l[index]')
-				print(l[index])
 				l[index] = l[index] / p
-				print('l[index]')
-				print(l[index])
 				index += p
-				print('index')
-				print(index)
-				counter += 1
-				print('index < len(l)')
-				print(index < len(l))
 	R = []
+	Q = []
 	for ind in range(0, len(l)):
 		if l[ind] == 1:
 			R.append([[len(R)], basefactorize(m[ind], baselist)])
-	print('R')
-	print(R)
-	dep = lindep(N, q, R) # factorization or None if we cannot yet find a factorization
+			Q.append(q[ind])
+	dep = lindep(N, Q, R) # factorization or None if we cannot yet find a factorization
 	if dep != None:
 		return dep # the factorization
 	else:
-		# return QS(N, mult * 2)
-		None
+		return QS(N, mult * 10, counter)
+		# return None
 
 
 def basefactorize(t, baselist): # factorize over baselist and return exponents
@@ -95,7 +80,6 @@ def collectbase(D): # find base for given value of D
 
 
 def lindep(N, Q, R): # find dependency, return either factorization or None
-	print('lindep')
 	if R == []:
 		return None
 	S = R.copy()
@@ -106,8 +90,6 @@ def lindep(N, Q, R): # find dependency, return either factorization or None
 		for s in range(0, width):
 			item[1][s] = item[1][s] % 2
 	for w in range(0, width): # iterate through width
-		print('S')
-		print(S)
 		for h in range(finishedheight, height): # iterate through height below finished rows
 			if S[h][1][w] == 1: # find row that contains 1 in the current column
 				row = S[h] # save row
@@ -125,30 +107,28 @@ def lindep(N, Q, R): # find dependency, return either factorization or None
 	return None
 
 def checknumbers(N, Q, R, rows): # multiply the appropriate numbers together, see if they will give a nontrivial solution
-	print('checknumbers')
-	print('rows')
-	print(rows)
 	x2 = 1
 	y2 = 1
 	for row in rows:
-		Ak, Ak2 = Q[row]
-		print('Ak')
-		print(Ak)
-		print('Ak2')
-		print(Ak2)
-		x2 = (x2 * Ak) % N # multiply all the Aks together mod N
-		y2 = (y2 * Ak2) # multiply all the Ak**2s together
+		xi, yi = Q[row]
+		x2 = (x2 * xi) % N # multiply all the Aks together mod N
+		y2 = (y2 * yi) # multiply all the Ak**2s together
 	y = sqrt(y2)
 	if ((x2 % N) != (y % N)) and ((x2 % N) != (- y % N)): # check that x2 != +- y mod N
-		return factorize(x2, y)
+		return factorize(N, x2, y)
 	else: # if x2 != +- y mod N we would get a trivial solution, so try new set of numbers
 		return None
 
-def factorize(x2, y): # find factorization of N
+def factorize(N, x2, y): # find factorization of N
 	r0 = x2 + y
 	f0 = gcd(r0, N)
 	return f0, int(N / f0)
 
 
 
-print(QS(15347))
+# print(QS(15347))
+# print(QS(15440))
+# print(QS(64775585))
+# print(QS(4096))
+# print(QS(2500))
+print(QS(539873))
