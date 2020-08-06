@@ -124,11 +124,12 @@ def lindep(N, Q, R): # find dependency, return either factorization or None
 				S.remove(S[h]) # remove row
 				S.insert(finishedheight, row) # insert row at top of unfinished rows, bottom of finished rows
 				for lower in range(finishedheight + 1, height): # add current row to each lower row
-					S[lower] = (S[lower][0] + S[finishedheight][0], [(S[lower][1][j] + S[finishedheight][1][j]) % 2 for j in range(0, width)])
-					if S[lower][1] == [0] * width: # if any row has all 0s (meaning all rows multiplied together give all even exponents), check if it factors
-						check = checknumbers(N, Q, R, S[lower][0])
-						if check != None:
-							return check # return a factorization
+					if S[lower][1][w] == 1:
+						S[lower] = (S[lower][0] + S[finishedheight][0], [(S[lower][1][j] + S[finishedheight][1][j]) % 2 for j in range(0, width)])
+						if S[lower][1] == [0] * width: # if any row has all 0s (meaning all rows multiplied together give all even exponents), check if it factors
+							check = checknumbers(N, Q, R, S[lower][0])
+							if check != None:
+								return check # return a factorization
 				finishedheight += 1
 				break
 	return None
@@ -142,11 +143,11 @@ def checknumbers(N, Q, R, rows): # multiply the appropriate numbers together, se
 		y2 = (y2 * Ak2) # multiply all the Ak**2s together
 	y = sqrt(y2)
 	if ((x2 % N) != (y % N)) and ((x2 % N) != (- y % N)): # check that x2 != +- y mod N
-		return factorize(x2, y)
+		return factorize(N, x2, y)
 	else: # if x2 != +- y mod N we would get a trivial solution, so try new set of numbers
 		return None
 
-def factorize(x2, y): # find factorization of N
+def factorize(N, x2, y): # find factorization of N
 	r0 = x2 + y
 	f0 = gcd(r0, N)
 	return f0, int(N / f0)
@@ -160,7 +161,7 @@ def factorize(x2, y): # find factorization of N
 # N = 10403
 # N = 418679
 # N = 14761091
-# c = CFRAC(N)
-# print('factorization : ' + str(c))
-# print(str(c[0]) + '*' + str(c[1]) + '=' + str(c[0] * c[1]))
-# print('N : ' + str(N))
+c = CFRAC(N)
+print('factorization : ' + str(c))
+print(str(c[0]) + '*' + str(c[1]) + '=' + str(c[0] * c[1]))
+print('N : ' + str(N))
