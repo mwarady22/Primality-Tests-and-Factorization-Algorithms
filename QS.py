@@ -4,41 +4,31 @@ from PrimesList import *
 from Legendre import *
 
 
-def QS(N, mult=1, counter=0):
-	print('mult : ' + str(mult))
-
+def QS(N):
 	baselist, q = collectbase(N) # list of base elements, product of all base elements
-	print(baselist)
 	x = ZZ['x'].gen()
-	Qa = (x + ceil(sqrt(N)))**2 - N
-	l = []
-	q = []
-	ran = ceil(sqrt(N)) * mult
-	print('ran : ' + str(ran))
-	print('N :   ' + str(N))
-	if counter == 1:
-		return 'Cannot be solved with Qudratic Sieve, try Multiple Polynomial Quadratic Sieve'
-	if ran >= N:
-		counter += 1
-		ran = N
+	Qa = (x + ceil(sqrt(N)))**2 - N # create a polynomial to evaluate at different inputs
+	l = [] # will hold Qa(z) at index z
+	q = [] # will hold [z + ceil(sqrt(N)), Qa(z)] at index z
+	ran = ceil(sqrt(N)) # the range over which Qa will be evaluated
 	for z in range(0, ran):
 		Qaz = Qa(z)
-		l.append(Qaz)
+		l.append(int(Qaz))
 		q.append([z + ceil(sqrt(N)), Qaz])
-	m = l.copy()
-	for p in baselist:
-		w = Integers(p)['w'].gen()
-		Ya = (w + ceil(sqrt(N)))**2 - N
-		rootlist = Ya.roots()
-		
-		for root, multiplicity in rootlist:
+	m = l.copy() # save copy of l so that l can be modified without loss of information
+	for p in baselist: # sieve
+		w = Integers(p)['w'].gen() # create integer mod p ring in variable w
+		Ya = (w + ceil(sqrt(N)))**2 - N # create the polynomial Qa mod p
+		rootlist = Ya.roots() # find roots of this polynomial
+		for root, mult in rootlist: # divide out each prime completely from root + n * p
 			index = int(root)
 			while index < len(l):
-				l[index] = l[index] / p
+				while l[index] / p == int(l[index] / p): # while there is still a factor of p, remove it
+					l[index] = l[index] / p
 				index += p
 	R = []
 	Q = []
-	for ind in range(0, len(l)):
+	for ind in range(0, len(l)): # find which indices hold numbers factorable in the prime base
 		if l[ind] == 1:
 			R.append([[len(R)], basefactorize(m[ind], baselist)])
 			Q.append(q[ind])
@@ -46,8 +36,7 @@ def QS(N, mult=1, counter=0):
 	if dep != None:
 		return dep # the factorization
 	else:
-		return QS(N, mult * 10, counter)
-		# return None
+		return 'Cannot be solved with Qudratic Sieve, try Multiple Polynomial Quadratic Sieve'
 
 
 def basefactorize(t, baselist): # factorize over baselist and return exponents
@@ -111,8 +100,8 @@ def checknumbers(N, Q, R, rows): # multiply the appropriate numbers together, se
 	y2 = 1
 	for row in rows:
 		xi, yi = Q[row]
-		x2 = (x2 * xi) % N # multiply all the Aks together mod N
-		y2 = (y2 * yi) # multiply all the Ak**2s together
+		x2 = (x2 * xi) % N # multiply all the inputs to Q that generate the desired congruences
+		y2 = (y2 * yi) # multiply all the outputs of Q in the desired congruences
 	y = sqrt(y2)
 	if ((x2 % N) != (y % N)) and ((x2 % N) != (- y % N)): # check that x2 != +- y mod N
 		return factorize(N, x2, y)
@@ -129,6 +118,6 @@ def factorize(N, x2, y): # find factorization of N
 # print(QS(15347))
 # print(QS(15440))
 # print(QS(64775585))
-# print(QS(4096))
-# print(QS(2500))
-print(QS(539873))
+# print(QS(539873))
+# print(QS(33569887))
+# print(QS(6558422578784))
