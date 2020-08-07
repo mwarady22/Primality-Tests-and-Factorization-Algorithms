@@ -19,12 +19,31 @@ def MPQS(N, f, M):
 			q = p
 			qind = counter
 		counter += 1
+	indexlist = [q]
+	plus = q + 1
+	minus = q - 1
+	while (plus < len(sqrts)) and (minus >= 0):
+		indexlist.append(plus)
+		plus += 1
+		indexlist.append(minus)
+		minus -= 1
+	while (plus < len(sqrts)):
+		indexlist.append(plus)
+		plus += 1
+	while (minus >= 0):
+		indexlist.append(minus)
+		minus -= 1
 
 	return newpoly() #
 
-def newpoly(N, baselist, sqrts, logs, ogqind, oldqind, plusminus)
+def newpoly(N, baselist, sqrts, logs, indexlist, indexlistindex):
+	q = baselist[indexlist[indexlistindex]]
+	a = q**2
 	rootnmodq = sqrts[ind]
-	lifted = rootnmodq - (rootnmodq**2 - N) * (2 * rootnmodq)**(-1)
+	inv = inverse_mod(rootnmodq, a)
+	b = rootnmodq - (rootnmodq**2 - N) * inv
+	ainv = inverse_mod(a, p)
+	soln0 = ainv #####
 
 
 
