@@ -40,14 +40,53 @@ def newpoly(N, M, baselist, sqrts, logs, indexlist, indexlistindex):
 	qind = indexlist[indexlistindex]
 	q = baselist[qind]
 	a = q**2
-	ainv = inverse_mod(a, q)
+	ainv = inverse_mod(a, 2)
 	b = mod(N, a).sqrt()
-	soln0 = (ainv * (sqrts[qind] - b)) % q
-	soln1 = (ainv * (- sqrts[qind] - b)) % q
+	sollist = []
+	for pindex in range(0, len(baselist)):
+		p = baselist[pindex]
+		sqrtp = sqrts[pindex]
+		ainv = inverse_mod(a, p)
+		soln0 = (ainv * (sqrtp - b)) % p
+		if p != 2:
+			soln1 = (ainv * (- sqrtp - b)) % p
+			sollist.append([soln0, soln1])
+		else:
+			sollist.append([soln0])
 	return sieve()
 
-def sieve(N, M):
-	s = [0] * (2 * M + 1)
+def sieve(N, M, baselist, logs, sollist):
+	spos = [0] * (M + 1) # holds 0 and positive indices for sieving
+	sneg = [0] * (M + 1) # holds 0 and negative indices for sieving
+	for pindex in range(0, len(baselist)):
+		p = baselist[pindex]
+		sol0 = sollist[pindex][0]
+		indpos = sol0
+		indneg = - (sol0 - p)
+		while indpos < M + 1:
+			spos[indpos] = spos[indpos] + logs[pindex]
+			indpos += p
+		while ind < M + 1:
+			sneg[indneg] = sneg[indneg] + logs[pindex]
+			indneg += p
+		if p != 2:
+			sol1 = sollist[pindex][1]
+			indpos = sol1
+			indneg = sol1
+			while ind < M + 1:
+				spos[indpos] = spos[indpos] + logs[pindex]
+				indpos += p
+			while ind < M + 1:
+				sneg[indneg] = sneg[indneg] + logs[pindex]
+				indneg += p
+	return checksieve()
+
+def checksieve(N, M, spos, sneg):
+	check = log((M * sqrt(N)), 2).n() - 1
+	checkindices = []
+	
+
+
 
 
 
