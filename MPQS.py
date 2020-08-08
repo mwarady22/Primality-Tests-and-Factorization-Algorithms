@@ -55,7 +55,7 @@ def newpoly(N, M, baselist, sqrts, logs, indexlist, indexlistindex):
 			sollist.append([soln0])
 	return sieve()
 
-def sieve(N, M, baselist, logs, sollist):
+def sieve(N, M, a, b, c, baselist, logs, sollist):
 	spos = [0] * (M + 1) # holds 0 and positive indices for sieving
 	sneg = [0] * (M + 1) # holds 0 and negative indices for sieving
 	for pindex in range(0, len(baselist)):
@@ -74,17 +74,35 @@ def sieve(N, M, baselist, logs, sollist):
 			indpos = sol1
 			indneg = sol1
 			while ind < M + 1:
-				spos[indpos] = spos[indpos] + logs[pindex]
-				indpos += p
+				if ind >= 0:
+					spos[indpos] = spos[indpos] + logs[pindex]
+					indpos += p
 			while ind < M + 1:
-				sneg[indneg] = sneg[indneg] + logs[pindex]
-				indneg += p
+				if ind >= 0:
+					sneg[indneg] = sneg[indneg] + logs[pindex]
+					indneg += p
 	return checksieve()
 
-def checksieve(N, M, spos, sneg):
+def checksieve(N, M, a, b, c, spos, sneg):
 	check = log((M * sqrt(N)), 2).n() - 1
-	checkindices = []
-	
+	smoothindices = []
+	x = ZZ['x'].gen()
+	g = a**2 * x**2 + 2 * b * x + c 
+	for indpos in range(0, len(spos)):
+		if spos[indpos] >= check:
+			gx = g(indpos)
+			smooth = bsmoothcheck(gx, baselist)
+			if smooth == 1:
+				smoothindices.append(indpos)
+	for indneg in range(1, len(sneg)):
+		if sneg[indneg] >= check:
+			gx = g(indneg)
+			smooth = bsmoothcheck(sneg[indpos], baselist)
+			if smooth == 1:
+				smoothindices.append(- indneg)
+
+# take selected g(x) and if enough run matrix
+
 
 
 
@@ -124,6 +142,16 @@ def QS(N):
 	else:
 		return 'Cannot be solved with Qudratic Sieve, try Multiple Polynomial Quadratic Sieve'
 
+def bsmoothcheck(t, q): # returns 1 if t is bsmooth over base and 0 otherwise
+	while True:
+		g = gcd(t, q)
+		if g == 1:
+			return 0
+		else:
+			while t % g == 0: # divide out all multiples of g
+				t = t / g
+			if abs(t) == 1:
+				return 1
 
 def basefactorize(t, baselist): # factorize over baselist and return exponents
 	l = len(baselist)
