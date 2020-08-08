@@ -6,8 +6,8 @@ from SqrtModp import *
 
 def MPQS(N, f, M):
 	baselist, k = collectbase(N, f) # list of base elements, product of all base elements
-	sqrts = [None]
-	logs = [1]
+	sqrts = [None] # will hold the modular square roots of each odd prime in the baselist, with None at index 0
+	logs = [1]# will hold the base 2 log of each prime in the baselist
 	mid = sqrt((sqrt(2 * N) / M))
 	qind = None
 	q = None
@@ -36,14 +36,18 @@ def MPQS(N, f, M):
 
 	return newpoly() #
 
-def newpoly(N, baselist, sqrts, logs, indexlist, indexlistindex):
-	q = baselist[indexlist[indexlistindex]]
+def newpoly(N, M, baselist, sqrts, logs, indexlist, indexlistindex):
+	qind = indexlist[indexlistindex]
+	q = baselist[qind]
 	a = q**2
-	rootnmodq = sqrts[ind]
-	inv = inverse_mod(rootnmodq, a)
-	b = rootnmodq - (rootnmodq**2 - N) * inv
-	ainv = inverse_mod(a, p)
-	soln0 = ainv #####
+	ainv = inverse_mod(a, q)
+	b = mod(N, a).sqrt()
+	soln0 = (ainv * (sqrts[qind] - b)) % q
+	soln1 = (ainv * (- sqrts[qind] - b)) % q
+	return sieve()
+
+def sieve(N, M):
+	s = [0] * (2 * M + 1)
 
 
 
