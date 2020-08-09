@@ -5,45 +5,62 @@ from Legendre import *
 from SqrtModp import *
 
 def MPQS(N, f, M):
+	print('MPQS')
 	baselist, k = collectbase(N, f) # list of base elements, product of all base elements
-	sqrts = [None] # will hold the modular square roots of each odd prime in the baselist, with None at index 0
+	print('past baselist')
+	sqrts = [] # will hold the modular square roots of each odd prime in the baselist, with None at index 0
 	logs = [1]# will hold the base 2 log of each prime in the baselist
 	mid = sqrt((sqrt(2 * N) / M))
-	qind = None
-	q = None
-	counter = 0
+	print('baselist : ' + str(baselist))
 	for p in baselist:
-		sqrts.append(SqrtModp(N, p))
-		logs.append(log(p, 2).n())
-		if p <= mid:
-			q = p
-			qind = counter
-		counter += 1
-	indexlist = [q]
-	plus = q + 1
-	minus = q - 1
-	while (plus < len(sqrts)) and (minus >= 0):
-		indexlist.append(plus)
-		plus += 1
-		indexlist.append(minus)
-		minus -= 1
-	while (plus < len(sqrts)):
-		indexlist.append(plus)
-		plus += 1
-	while (minus >= 0):
-		indexlist.append(minus)
-		minus -= 1
+		if p == 2:
+			sqrts.append(1)
+			logs.append(1)
+		else:
+			sqrts.append(SqrtModp(N, p))
+			logs.append(log(p, 2).n())
 
-	return newpoly() #
+
+
+
+
+
+
+
+
+
+
+	qindex, q = chooseq(N, M)
+
+	# make system to control which q is used next
+
+
+
+
+
+
+
+
+
+	return newpoly(N, M, baselist, sqrts, logs, indexlist, 0)
 
 def newpoly(N, M, baselist, sqrts, logs, indexlist, indexlistindex):
+	print('newpoly')
+	if indexlistindex >= len(indexlist):
+		return 'cannot be solved with given bounds'
 	qind = indexlist[indexlistindex]
+	print('qind : ' + str(qind))
 	q = baselist[qind]
+	print('q : ' + str(q))
 	a = q**2
-	ainv = inverse_mod(a, 2)
-	b = mod(N, a).sqrt()
+	print('a : ' + str(a))
+	b = int(mod(N, a).sqrt())
+	print('b : ' + str(b))
+	c = int((b**2 - N) / a)
+	print('c : ' + str(c))
 	sollist = []
 	for pindex in range(0, len(baselist)):
+		print('p : ' + str(baselist[pindex]))
 		p = baselist[pindex]
 		sqrtp = sqrts[pindex]
 		ainv = inverse_mod(a, p)
@@ -53,9 +70,10 @@ def newpoly(N, M, baselist, sqrts, logs, indexlist, indexlistindex):
 			sollist.append([soln0, soln1])
 		else:
 			sollist.append([soln0])
-	return sieve()
+	return sieve(N, M, baselist, sqrts, logs, indexlist, indexlistindex, a, b, c, sollist)
 
-def sieve(N, M, a, b, c, baselist, logs, sollist):
+def sieve(N, M, baselist, sqrts, logs, indexlist, indexlistindex, a, b, c, sollist):
+	print('sieve')
 	spos = [0] * (M + 1) # holds 0 and positive indices for sieving
 	sneg = [0] * (M + 1) # holds 0 and negative indices for sieving
 	for pindex in range(0, len(baselist)):
@@ -83,9 +101,12 @@ def sieve(N, M, a, b, c, baselist, logs, sollist):
 					indneg += p
 	return checksieve()
 
-def checksieve(N, M, a, b, c, spos, sneg):
+def checksieve(N, M, baselist, sqrts, logs, indexlist, indexlistindex, a, b, c, sollist, spos, sneg):
+	print('checksieve')
 	check = log((M * sqrt(N)), 2).n() - 1
-	smoothindices = []
+	# smoothindices = []
+	Q = []
+	R = []
 	x = ZZ['x'].gen()
 	g = a**2 * x**2 + 2 * b * x + c 
 	for indpos in range(0, len(spos)):
@@ -93,56 +114,28 @@ def checksieve(N, M, a, b, c, spos, sneg):
 			gx = g(indpos)
 			smooth = bsmoothcheck(gx, baselist)
 			if smooth == 1:
-				smoothindices.append(indpos)
+				# smoothindices.append(indpos)
+				R.append([[len(R)], basefactorize(gx, baselist)])
+				Q.append(ind, gx)
 	for indneg in range(1, len(sneg)):
 		if sneg[indneg] >= check:
 			gx = g(indneg)
 			smooth = bsmoothcheck(sneg[indpos], baselist)
 			if smooth == 1:
-				smoothindices.append(- indneg)
+				# smoothindices.append(- indneg)
+				R.append([[len(R)], basefactorize(gx, baselist)])
+				Q.append(- ind, gx)
+	if len(Q) > len(baselist):
+		dep = lindep(N, Q, R) # factorization or None if we cannot yet find a factorization
+		if dep != None:
+			return dep # the factorization
+	else:
+		return newpoly(N, M, baselist, sqrts, logs, indexlist, indexlistindex + 1) # didn't work, try new polynomial
 
 # take selected g(x) and if enough run matrix
 
-
-
-
-
-
-
-def QS(N):
-	x = ZZ['x'].gen()
-	Qa = (x + ceil(sqrt(N)))**2 - N # create a polynomial to evaluate at different inputs
-	l = [] # will hold Qa(z) at index z
-	q = [] # will hold [z + ceil(sqrt(N)), Qa(z)] at index z
-	ran = ceil(sqrt(N)) # the range over which Qa will be evaluated
-	for z in range(0, ran):
-		Qaz = Qa(z)
-		l.append(int(Qaz))
-		q.append([z + ceil(sqrt(N)), Qaz])
-	m = l.copy() # save copy of l so that l can be modified without loss of information
-	for p in baselist: # sieve
-		w = Integers(p)['w'].gen() # create integer mod p ring in variable w
-		Ya = (w + ceil(sqrt(N)))**2 - N # create the polynomial Qa mod p
-		rootlist = Ya.roots() # find roots of this polynomial
-		for root, mult in rootlist: # divide out each prime completely from root + n * p
-			index = int(root)
-			while index < len(l):
-				while l[index] / p == int(l[index] / p): # while there is still a factor of p, remove it
-					l[index] = l[index] / p
-				index += p
-	R = []
-	Q = []
-	for ind in range(0, len(l)): # find which indices hold numbers factorable in the prime base
-		if l[ind] == 1:
-			R.append([[len(R)], basefactorize(m[ind], baselist)])
-			Q.append(q[ind])
-	dep = lindep(N, Q, R) # factorization or None if we cannot yet find a factorization
-	if dep != None:
-		return dep # the factorization
-	else:
-		return 'Cannot be solved with Qudratic Sieve, try Multiple Polynomial Quadratic Sieve'
-
 def bsmoothcheck(t, q): # returns 1 if t is bsmooth over base and 0 otherwise
+	print('bsmoothcheck')
 	while True:
 		g = gcd(t, q)
 		if g == 1:
@@ -154,6 +147,7 @@ def bsmoothcheck(t, q): # returns 1 if t is bsmooth over base and 0 otherwise
 				return 1
 
 def basefactorize(t, baselist): # factorize over baselist and return exponents
+	print('basefactorize')
 	l = len(baselist)
 	explist = [0] * l
 	for x in range(0, l):
@@ -166,6 +160,7 @@ def basefactorize(t, baselist): # factorize over baselist and return exponents
 
 
 def collectbase(D, f): # find base for given value of D with values at most f
+	print('collectbase')
 	b = floor(e**(sqrt(ln(D) * ln(ln(D))) / 2)) # find bound for base primes
 	if b < 31: # never have too small a base
 		b = 31
@@ -185,6 +180,7 @@ def collectbase(D, f): # find base for given value of D with values at most f
 
 
 def lindep(N, Q, R): # find dependency, return either factorization or None
+	print('lindep')
 	if R == []:
 		return None
 	S = R.copy()
@@ -212,6 +208,7 @@ def lindep(N, Q, R): # find dependency, return either factorization or None
 	return None
 
 def checknumbers(N, Q, R, rows): # multiply the appropriate numbers together, see if they will give a nontrivial solution
+	print('checknumbers')
 	x2 = 1
 	y2 = 1
 	for row in rows:
@@ -225,15 +222,38 @@ def checknumbers(N, Q, R, rows): # multiply the appropriate numbers together, se
 		return None
 
 def factorize(N, x2, y): # find factorization of N
+	print('factorize')
 	r0 = x2 + y
 	f0 = gcd(r0, N)
 	return f0, int(N / f0)
 
+def chooseq(N, M):
+	close = sqrt((sqrt(2 * N)) / M)
+	pindex = 0
+	p = primelist[pindex]
+	primelen = len(primelist)
+	while (p < close) and (p < primelen - 2):
+		pindex += 1
+		p = primelist[pindex]
+	if p < primelen - 2:
+		lowdiff = close - p
+		highdiff = primelist[pindex + 1] - close
+		if highdiff < lowdiff:
+			qindex = pindex + 1
+			q = primelist[qindex]
+		else:
+			qindex = pindex
+			q = primelist[qindex]
+	else:
+		qindex = primelen - 1
+		q = primelist[qindex]
+	return qindex, q
 
 
-# print(QS(15347))
-# print(QS(15440))
-# print(QS(64775585))
-# print(QS(539873))
-# print(QS(33569887))
-# print(QS(6558422578784))
+print(MPQS(1817, 50, 50))
+# print(MPQS(15347))
+# print(MPQS(15440))
+# print(MPQS(64775585))
+# print(MPQS(539873))
+# print(MPQS(33569887))
+# print(MPQS(6558422578784))
