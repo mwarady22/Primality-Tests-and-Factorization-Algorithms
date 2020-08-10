@@ -19,41 +19,43 @@ def MPQS(N, f, M):
 		else:
 			sqrts.append(SqrtModp(N, p))
 			logs.append(log(p, 2).n())
+	qindex, q = chooseq(N, M, baselist[len(baselist) - 1])
+	print('q : ' + str(q))
+	plusindex = qindex
+	minusindex = qindex - 1
+	last = 'minus'
+	return newpoly(N, M, baselist, sqrts, logs, plusindex, minusindex, last)
 
-
-
-
-
-
-
-
-
-
-
-	qindex, q = chooseq(N, M)
-
-	# make system to control which q is used next
-
-
-
-
-
-
-
-
-
-	return newpoly(N, M, baselist, sqrts, logs, indexlist, 0)
-
-def newpoly(N, M, baselist, sqrts, logs, indexlist, indexlistindex):
+def newpoly(N, M, baselist, sqrts, logs, plusindex, minusindex, last):
 	print('newpoly')
-	if indexlistindex >= len(indexlist):
+	if last == 'minus':
+		qindex = plusindex
+		last = 'plus'
+		plusindex += 1
+		if plusindex >= len(primelist):
+			last = 'stayminus'
+	elif last == 'plus':
+		qindex = minusindex
+		last = 'minus'
+		minusindex -= 1
+		if minusindex < 0:
+			last = 'stayplus'
+	elif last == 'stayplus':
+		qindex = plusindex
+		plusindex += 1
+	elif last == 'stayminus':
+		qindex = minusindex
+		minusindex -= 1
+	if (last == 'stayplus') and (qindex >= len(primelist)):
 		return 'cannot be solved with given bounds'
-	qind = indexlist[indexlistindex]
-	print('qind : ' + str(qind))
-	q = baselist[qind]
+	if (last == 'stayminus') and (qindex < 0):
+		return 'cannot be solved with given bounds'
+	q = primelist[qindex]
 	print('q : ' + str(q))
 	a = q**2
 	print('a : ' + str(a))
+	b0 = mod(N, a).sqrt()
+	print('b0 : ' + str(b0))
 	b = int(mod(N, a).sqrt())
 	print('b : ' + str(b))
 	c = int((b**2 - N) / a)
@@ -99,9 +101,9 @@ def sieve(N, M, baselist, sqrts, logs, indexlist, indexlistindex, a, b, c, solli
 				if ind >= 0:
 					sneg[indneg] = sneg[indneg] + logs[pindex]
 					indneg += p
-	return checksieve()
+	return checksieve(N, M, baselist, sqrts, logs, plusindex, minusindex, last, a, b, c, sollist, spos, sneg)
 
-def checksieve(N, M, baselist, sqrts, logs, indexlist, indexlistindex, a, b, c, sollist, spos, sneg):
+def checksieve(N, M, baselist, sqrts, logs, plusindex, minusindex, last, a, b, c, sollist, spos, sneg):
 	print('checksieve')
 	check = log((M * sqrt(N)), 2).n() - 1
 	# smoothindices = []
@@ -130,9 +132,7 @@ def checksieve(N, M, baselist, sqrts, logs, indexlist, indexlistindex, a, b, c, 
 		if dep != None:
 			return dep # the factorization
 	else:
-		return newpoly(N, M, baselist, sqrts, logs, indexlist, indexlistindex + 1) # didn't work, try new polynomial
-
-# take selected g(x) and if enough run matrix
+		return newpoly(N, M, baselist, sqrts, logs, plusindex, minusindex, last) # didn't work, try new polynomial
 
 def bsmoothcheck(t, q): # returns 1 if t is bsmooth over base and 0 otherwise
 	print('bsmoothcheck')
@@ -227,22 +227,29 @@ def factorize(N, x2, y): # find factorization of N
 	f0 = gcd(r0, N)
 	return f0, int(N / f0)
 
-def chooseq(N, M):
-	close = sqrt((sqrt(2 * N)) / M)
+def chooseq(N, M, largestbase):
+	print('chooseq')
+	close = int(sqrt((sqrt(2 * N)) / M)) # find prime q close to this number which is a quadratic residue mod N
+	print('close : ' + str(close))
 	pindex = 0
 	p = primelist[pindex]
-	primelen = len(primelist)
-	while (p < close) and (p < primelen - 2):
+	while p <= largestbase: # q should not be in base
 		pindex += 1
 		p = primelist[pindex]
-	if p < primelen - 2:
-		lowdiff = close - p
-		highdiff = primelist[pindex + 1] - close
-		if highdiff < lowdiff:
-			qindex = pindex + 1
+	pindex += 1
+	p = primelist[pindex]
+	primelen = len(primelist)
+	while (p < close) and (p < primelen - 2): # if p < the goal and there are remaing primes available
+		pindex += 1
+		p = primelist[pindex] # use the next prime
+	if p < primelen - 2: # we did not run out of primes
+		lowdiff = close - primelist[pindex - 1]
+		highdiff = p - close
+		if highdiff <= lowdiff: # see if lower or higer prime is closer to goal
+			qindex = pindex
 			q = primelist[qindex]
 		else:
-			qindex = pindex
+			qindex = pindex - 1
 			q = primelist[qindex]
 	else:
 		qindex = primelen - 1
@@ -250,7 +257,7 @@ def chooseq(N, M):
 	return qindex, q
 
 
-print(MPQS(1817, 50, 50))
+print(MPQS(1050703, 100, 10))
 # print(MPQS(15347))
 # print(MPQS(15440))
 # print(MPQS(64775585))
