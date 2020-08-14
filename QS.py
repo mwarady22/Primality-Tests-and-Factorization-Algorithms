@@ -115,7 +115,7 @@ def factorize(N, x2, y): # find factorization of N
 
 
 
-# print(QS(15347))
+print(QS(15347))
 # print(QS(15440))
 # print(QS(64775585))
 # print(QS(539873))
