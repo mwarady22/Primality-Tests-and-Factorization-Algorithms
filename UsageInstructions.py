@@ -179,7 +179,7 @@ import sys
 		# Notes
 			# None
 
-# File Name
+# PollardspMinus1.py
 	# FirstStage(N, B, x=2)
 		# Inputs
 			# N, the number which we are trying to factor
@@ -205,5 +205,132 @@ import sys
 			# a factor of N if the algorithm succeeds
 			# 'the algorithm has failed' if the algorithm cannot factor 
 				# N
+		# Notes
+			# None
+
+# PollardsRhoMethod.py
+	# Pollard(N)
+		# Inputs
+			# N, a composite number which we are trying to factor
+		# Outputs
+			# a factor of N if the algorithm succeeds
+			# 'algorithm fails' if the algorithm fails
+		# Notes
+			# None
+
+# PoweringAlgorithms.py
+	# RLbin(g, n)
+		# Inputs
+			# g, n, with which we want to calculate g**n
+		# Outputs
+			# g**n
+		# Notes
+			# None
+
+	# calculate_e(n)
+		# Inputs
+			# n, a number that will be used as the exponent in 
+				# LRbin(g, n, e)
+		# Outputs
+			# e such that 2**e <= |n| < 2**e+1
+		# Notes
+			# None
+
+	# LRbin(g, n, e)
+		# Inputs
+			# g, n, with which we want to calculate g**n
+			# e such that 2**e <= |n| < 2**e+1
+		# Outputs
+			# g**n
+		# Notes
+			# None
+
+	# PowerModm(g, n, m)
+		# Inputs
+			# g, n, m, with which we want to calculate g**n mod m
+		# Outputs
+			# g**n mod m
+		# Notes
+			# None
+
+# PowerTests.py
+	# IntSqrt(N)
+		# Inputs
+			# N, the number we want the floor square root of
+		# Outputs
+			# the floor square root of N
+		# Notes
+			# None
+
+	# precomp()
+		# Inputs
+			# None
+		# Outputs
+			# q11, q63, q64, q65, arrays to be used in 
+				# SquareTest(N, q11, q63, q64, q65)
+		# Notes
+			# None
+
+	# SquareTest(N, q11, q63, q64, q65)
+		# Inputs
+			# N, the number we want to determine to be a perfect square or not
+			# q11, q63, q64, q65, arrays created by precomp()
+		# Outputs
+			# q11, q63, q64, q65, arrays t be used in 
+				# SquareTest(N, q11, q63, q64, q65)
+		# Notes
+			# None
+
+# PrimitiveRoot.py
+	# PrimRoot(p)
+		# Inputs
+			# p, a prime number
+		# Outputs
+			# g, a number which to various powers gives each number between 0 
+				# and p (noninclusive) mod p
+		# Notes
+			# None
+
+# QS.py
+	# QS(N)
+		# Inputs
+			# N, the composite number which we are trying to factor
+		# Outputs
+			# a tuple of two nontrivial factors of N which multiply to N
+			# 'Cannot be solved with Qudratic Sieve, try Multiple Polynomial 
+				# Quadratic Sieve' if algorithm fails
+		# Notes
+			# None
+
+# Rabin_Miller.py
+	# RM(N)
+		# Inputs
+			# N, the composite number which we are trying to factor
+		# Outputs
+			# 'composite' meaning that N is certainly composite
+			# 'probably prime' meaning that N is probably prime, but could be 
+				# composite
+		# Notes
+			# if RM(N) returns 'probably prime' there is only a 4**(-20) chance 
+				# that it is composite
+
+# SqrtModp.py
+	# twokcalc(r)
+		# Inputs
+			# r, for which we want to find the largest integer t such that 
+				# 2**t | r
+		# Outputs
+			# t, the largest integer such that 2**t | r
+		# Notes
+			# None
+
+	# SqrtModp(a, p)
+		# Inputs
+			# a, a number we want the square root of mod p
+			# p, the modulus for this equation
+		# Outputs
+			# x, such that x**2 = a mod p if it exists
+			# str(a) + ' is not a quadratic residue mod ' + str(p) if it does 
+				# not exist
 		# Notes
 			# None
