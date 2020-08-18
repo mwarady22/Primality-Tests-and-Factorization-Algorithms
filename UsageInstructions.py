@@ -113,3 +113,68 @@ import sys
 			# 'no solution' if such a solution does not exist
 		# Notes
 
+# ECM.py
+	# ECM(N, dmax=128)
+		# Inputs
+			# N, the composite number which we are trying to factor
+			# d, the maximum recursion depth per curve used, if not 
+				# specified set to 128
+		# Outputs
+			# a tuple of two nontrivial factors of N which multiply to 
+				# give N
+		# Notes
+			# None
+
+# EuclideanAlgorithm.py
+	# gcd(a, b)
+		# Inputs
+			# a, b, two integers
+		# Outputs
+			# the greatest common divisor of a, b
+		# Notes
+			# None
+
+	# Bezout(a, b)
+		# Inputs
+			# a, b, two integers
+		# Outputs
+			# list of five numbers w, x, y, z, g = gcd(a, b) such that 
+				# w * x + y * z = g
+		# Notes
+			# None
+
+# Golwasser_Kilian.py
+	# GKTest(N)
+		# Inputs
+			# N, the number we want to determine to be prime or 
+				# composite
+		# Outputs
+			# 'prime' if N is prime
+			# 'composite' if N is composite
+		# Notes
+			# N must pass Rabin-Miller test before GKTest is used, might 
+				# run forever if N is composite
+
+# Legendre.py
+	# Kronecker(a, b)
+		# Inputs
+			# a, the integer on the top of the Kronecker symbol
+			# b, the integer on the bottom of the Kronecker symbol
+		# Outputs
+			# 0 if a even and b = 2 or if a != += 1 and b = 0
+			# 1 if a = +- 1 (mod 8) and b = 2 or if a >= 0 and b = -1 or 
+				# if a = +- 1 and b = 0
+			# - 1 if a = +- 3 (mod 8) and b = 2 or if a < 0 and b = -1
+		# Notes
+			# when b is an odd prime, equal to the Legendre symbol
+
+# LehmansMethod.py
+	# Lehman(N)
+		# Inputs
+			# N, the number which we are trying to factor or prove to be 
+			# prime
+		# Outputs
+			# a factor of N if N is composite
+			# 'prime' if N is prime
+		# Notes
+			# None
