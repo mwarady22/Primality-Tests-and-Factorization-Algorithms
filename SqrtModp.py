@@ -4,7 +4,7 @@ import random
 from Legendre import *
 from PoweringAlgorithms import *
 
-def twokcalc(r): # 2kcalc(p) denotes the highest exponent k such that 2**k | t
+def twokcalc(r): # twokcalc(r) denotes the highest exponent k such that 2**k | r
 	v = 0
 	while (r % (2**v)) == 0:
 		v += 1
