@@ -178,3 +178,32 @@ import sys
 			# 'prime' if N is prime
 		# Notes
 			# None
+
+# File Name
+	# FirstStage(N, B, x=2)
+		# Inputs
+			# N, the number which we are trying to factor
+			# B, a bound such that for any prime factor p that can be 
+				# found, p - 1 is B-powersmooth (all primes in its prime 
+				# factorization are less than or equal to B)
+		# Outputs
+			# a factor of N if the algorithm succeeds
+			# 'the algorithm has failed' if the algorithm cannot factor 
+				# N
+			# 'the algorithm did not succeed in spliting N' if the bound 
+				# B is too low to factor N
+		# Notes
+			# None
+
+	# SecondStage(N, B1, B2)
+		# Inputs
+			# N, the number which we are trying to factor
+			# B1 and B2, bounds such that for any prime factor p that can 
+				# be found, p - 1 is equal to a B1-powersmooth number 
+				# times a prime less than or equal to B2
+		# Outputs
+			# a factor of N if the algorithm succeeds
+			# 'the algorithm has failed' if the algorithm cannot factor 
+				# N
+		# Notes
+			# None
