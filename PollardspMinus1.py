@@ -5,8 +5,8 @@ from EuclideanAlgorithm import *
 from PoweringAlgorithms import *
 
 
-def FirstStage(N, B, x=2): # runs independently, finds a factor of N only if there is one that is B-powersmooth
-
+def FirstStage(N, B): # runs independently, finds a factor of N only if there is one that is B-powersmooth
+	x = 2
 	g = gcd(x, N)
 	if g == N:
 		return 'must use x < N'
