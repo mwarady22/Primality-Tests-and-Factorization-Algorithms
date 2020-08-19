@@ -11,7 +11,7 @@ def Cornacchia(p, d): # p prime, 0 < d < p, outputs solution to x**2 + d * y**2 
 	x0 = SqrtModp(- d, p)
 	while x0 < p / 2: # find number congruent to +-x0 between p / 2, p
 		x0 += p
-	while x0 > p:
+	while x0 > p: # make x0 less than or equal to p
 		x0 -= p
 	a = p
 	b = x0
@@ -24,12 +24,10 @@ def Cornacchia(p, d): # p prime, 0 < d < p, outputs solution to x**2 + d * y**2 
 	else:
 		return b, sqrt(c)
 
-def euclidalg(b, l, a):
+def euclidalg(b, l, a): # returns last row of Euclidean Algorithm with l
 	if b > l:
 		r = a % b
 		a = b
 		b = r
 		return euclidalg(b, l, a)
 	return b, l, a
-
-# print(Cornacchia(5, 2))
