@@ -4,7 +4,7 @@
 
 # A library of primality tests and factorization algorithms.  Tests 
 # and algorithms sourced from Cohen's "A Course in Computational 
-# Algebraic Number Theory"
+# Algebraic Number Theory".
 
 #######################################################################
 
@@ -179,6 +179,21 @@
 		# Outputs
 			# a factor of N if N is composite
 			# 'prime' if N is prime
+		# Notes
+			# None
+
+# MPQS.py
+	# MPQS(N, f, M)
+		# Inputs
+			# N, the number which we are trying to factor
+			# f, a bound for the size of the numbers in the baselist
+			# M, the length of the sieve will be 2 * M + 1
+		# Outputs
+			# a tuple of factors of N if the algorithm finds them
+			# 'MPQS will not work on ' + str(N) if the algorithm does not find 
+				# fators
+			# 'cannot be solved with given bounds' if the algorithm does not 
+				# find fators with the bounds
 		# Notes
 			# None
 
