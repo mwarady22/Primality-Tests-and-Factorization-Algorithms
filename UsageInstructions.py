@@ -334,3 +334,44 @@ import sys
 				# not exist
 		# Notes
 			# None
+
+# TrialDivisionFactoring.py
+	# TrialFactor(N, B=lastelem)
+		# Inputs
+			# N, the number which we are trying to factor
+			# B, an optional argument which gives the largest factor we want to 
+				# test for
+		# Outputs
+			# a list containing one or two factors if there are factors less 
+				# than B
+			# 'prime' if the algorithm shows N is prime
+			# 'remaining divisors are greater than ' + str(B) if the algorithm 
+				# finds no factors less than or equal to B
+		# Notes
+			# finds one or two factors, not necessarily entire prime 
+				# factorization
+
+	# TrialCompleteFactorization(N, B=lastelem)
+		# Inputs
+			# N, the number which we are trying to factor
+			# B, an optional argument which gives the largest factor we want to 
+				# test for
+		# Outputs
+			# a list containing the prime factorization if all prime factors 
+				# are less than B
+			# 'prime' if the algorithm shows N is prime
+			# a list containing all factors less than B and the message 
+				# 'remaining factors of ' + str(N) + ' are greater than ' 
+				# + str(B)
+		# Notes
+			# finds all factors less than B, not just one or two
+
+# WilsonsTheorem.py
+	# Wilson(p)
+		# Inputs
+			# p, a number we want to know to be prime or composite
+		# Outputs	
+			# 'prime' if p is prime
+			# 'composite' if p is composite
+		# Notes
+			# None
