@@ -151,17 +151,3 @@ def factorize(N, x2, y): # find factorization of N
 	r0 = x2 + y
 	f0 = gcd(r0, N)
 	return f0, int(N / f0)
-
-# N = 3053
-# N = 3599
-# N = 3054
-# N = 3052
-# N = 2257
-# N = 9271
-# N = 10403
-# N = 418679
-# N = 14761091
-c = CFRAC(N)
-print('factorization : ' + str(c))
-print(str(c[0]) + '*' + str(c[1]) + '=' + str(c[0] * c[1]))
-print('N : ' + str(N))
