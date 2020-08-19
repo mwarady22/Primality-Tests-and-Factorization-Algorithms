@@ -96,10 +96,3 @@ def Bezout(a, b):
 		return [bneg * m, bneg * a, aneg * n, aneg * b, p]
 	else:
 		return [aneg * m, aneg * a, bneg * n, bneg * b, p]
-
-
-# Control
-
-# print(gcd(*sys.argv[1 : ]))
-
-# print(Bezout(*sys.argv[1 : ]))
