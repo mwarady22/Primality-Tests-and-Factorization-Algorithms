@@ -30,7 +30,6 @@ def CRT_basic(xlist, mlist): # takes in 2 lists, the first containing the intege
 		x += alist[j] * (M / mlist[j]) * xlist[j]
 	x = x % M
 
-	# print(int(x))
 	return int(x)
 
 # Computes the Clist needed to compute multiple congruences mod the same mlist.
@@ -55,18 +54,15 @@ def CRT_precomp(mlist):
 			Clist.append(B[2])
 		j += 1
 
-	# print(Clist)
 	return Clist
 
 # Single congruence computation using the advanced method.
 def CRT_comp(xlist, mlist, Clist):
 
 	if len(xlist) != len(mlist): # list lengths must match
-		# print(None)
 		return None
 
 	if Clist == None:
-		# print(None)
 		return None
 
 	ylist = [xlist[0] % mlist[0]]
@@ -83,7 +79,6 @@ def CRT_comp(xlist, mlist, Clist):
 		x *= mlist[l]
 		x += ylist[l]
 
-	# print(x)
 	return x
 
 # Runs multiple congruence computatins using the advanced method.
@@ -92,7 +87,6 @@ def CRT_multiple(xlistlist, mlist):
 	Clist = CRT_precomp(mlist)
 
 	if Clist == None:
-		# print(None)
 		return None
 
 	outlist = []
@@ -100,13 +94,11 @@ def CRT_multiple(xlistlist, mlist):
 	for xlist in xlistlist:
 		outlist.append(CRT_comp(xlist, mlist, Clist))
 
-	# print(outlist)
 	return outlist
 
 def CRT_ind(xlist, mlist):
 
 	if len(xlist) != len(mlist): # list lengths must match
-		# print(None)
 		return None
 
 	x = xlist[0]
@@ -116,7 +108,6 @@ def CRT_ind(xlist, mlist):
 	while j < len(xlist):
 		B = Bezout(m, mlist[j])
 		if B[4] != 1:
-			# print(None)
 			return None
 		if B[1] == m:
 			u = B[0]
@@ -129,19 +120,4 @@ def CRT_ind(xlist, mlist):
 		x = x % m
 		j += 1
 
-	# print(x)
 	return x
-
-# Control
-
-# CRT_basic(*sys.argv[1 : ])
-
-# CRT_basic([6, 3, 2, 8], [7, 6, 11])
-
-# CRT_comp([6, 3, 2, 15], [7, 6, 11, 125], CRT_precomp([7, 6, 11, 125]))
-# CRT_comp([6, 3, 2, 15], [12, 6, 11, 125], CRT_precomp([12, 6, 11, 125]))
-
-# CRT_multiple([[6, 3, 2, 15], [144, 18, - 6, 1034], [1, 1, 1, 1], [0, 4, 109, 1729]], [7, 6, 11, 125])
-# CRT_multiple([[6, 3, 2, 15], [144, 18, - 6, 1034], [1, 1, 1, 1], [0, 4, 109, 1729]], [12, 6, 11, 125])
-
-# CRT_ind([6, 3, 2, 15], [7, 6, 11, 125])
