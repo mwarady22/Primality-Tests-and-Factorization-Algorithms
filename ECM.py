@@ -49,7 +49,4 @@ def failure(N, dmax, noinverse): # multiplication failed, have found a factor of
 	if g < N: # have found a nontrivial factor of N, return
 		return g, int(N / g)
 	else: # factor of N is N, try again with new curve
-		return choosecurve(N, dmax) #
-
-# num = 492876847 * 982451653
-# print(ECM(num, 128))
+		return choosecurve(N, dmax)
