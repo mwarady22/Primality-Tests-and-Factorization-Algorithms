@@ -49,6 +49,3 @@ def AKSTest(N): # deterministically outputs if N is prime or not
 		if LHS1 != RHS1: # check if they are the same
 			return 'composite'
 	return 'prime'
-
-
-# print(AKSTest(2099))
