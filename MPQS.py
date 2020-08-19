@@ -264,4 +264,3 @@ def chooseq(N, M, largestbaseindex):
 # print(MPQS(64775585))
 # print(MPQS(539873))
 # print(MPQS(33569887))
-# print(MPQS(6558422578784))
