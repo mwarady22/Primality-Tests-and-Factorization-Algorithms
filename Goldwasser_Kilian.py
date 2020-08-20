@@ -24,7 +24,7 @@ def choosecurve(Ni, h): # find coefficients a, b for an elliptic curve y**2 = x*
 	a = randint(0, Ni - 1)
 	b = randint(0, Ni - 1)
 	z = 4 * a**3 + 27 * b**2
-	if z % Ni == 0:
+	if z % Ni == 0: # if discriminant is a multiple of Ni, choose new curve
 		a, b = choosecurve(Ni, h)
 	return schoof(Ni, h, a, b)
 
@@ -74,9 +74,9 @@ def checkp(Ni, h, E, a, b, m, q, x, y):
 		P2 = z * P
 	except ZeroDivisionError:
 		return backtrack(Ni, h)
-	if P1 != OE:
+	if P1 != OE: # check if P1 is not the identity element
 		return backtrack(Ni, h)
-	elif P2 == OE:
+	elif P2 == OE: # check if P2 is the identity element 
 		return findp(Ni, h, E, a, b, m, q)
 	else:
 		return recurse(Ni, h, q)
@@ -94,5 +94,3 @@ def backtrack(Ni, h):
 	else:
 		h -= 1
 		return choosecurve(Ni, h)
-
-# print(GKTest(10570841))
