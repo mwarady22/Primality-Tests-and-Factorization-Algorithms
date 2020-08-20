@@ -112,12 +112,3 @@ def factorize(N, x2, y): # find factorization of N
 	r0 = x2 + y
 	f0 = gcd(r0, N)
 	return f0, int(N / f0)
-
-
-
-print(QS(15347))
-# print(QS(15440))
-# print(QS(64775585))
-# print(QS(539873))
-# print(QS(33569887))
-# print(QS(6558422578784))
