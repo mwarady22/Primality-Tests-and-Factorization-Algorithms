@@ -16,7 +16,7 @@ def accumulate(N, y, x, x1, k, l, P, c):
 	if c == 20:
 		g = gcd(P, N)
 		if g > 1:
-			return backtrack(N, y, g)
+			return backtrack(N, y, g, x1) # have found factor, maybe N
 		else:
 			y = x
 			c = 0
@@ -29,7 +29,7 @@ def advance(N, y, x, x1, k, l, P, c, g):
 	else:
 		g = gcd(P, N)
 		if g > 1:
-			return backtrack(N, y, g)
+			return backtrack(N, y, g, x1) # have found factor, maybe N
 		else:
 			x1 = x
 			k = l
@@ -40,7 +40,7 @@ def advance(N, y, x, x1, k, l, P, c, g):
 			c = 0
 			return accumulate(N, y, x, x1, k, l, P, c)
 
-def backtrack(N, y, g):
+def backtrack(N, y, g, x1):
 	while not (g > 1):
 		y = (y**2 + 1) % N
 		g = gcd(x1 - y, N)
@@ -48,6 +48,3 @@ def backtrack(N, y, g):
 		return g
 	else:
 		return 'algorithm fails'
-
-
-# print(Pollard(419224629953))
