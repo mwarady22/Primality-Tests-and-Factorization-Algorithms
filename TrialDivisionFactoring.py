@@ -3,7 +3,6 @@ import sys
 from PrimesList import *
 sys.setrecursionlimit(10**6)
 
-
 t = [6, 4, 2, 4, 2, 4, 6, 2]
 k = lastindex
 lastelem = primelist[lastindex] # the last element of the list of primes
@@ -26,7 +25,6 @@ elif lastpmod == 23:
 elif lastpmod == 29:
 	j = 7
 
-
 def TrialFactor(N, B=lastelem): # Finds a factor of N of size up to B
 	j, h, m, l, d, r = 0, 0, 0, 0, 0, 0
 	k = 0
@@ -36,7 +34,6 @@ def TrialFactor(N, B=lastelem): # Finds a factor of N of size up to B
 		while primelist[k] < B: # finds index of last prime less than or equal to B
 			k += 1
 	return initialize(N, k, j, B, h, m, l, d, r) # branches to step 1
-
 
 def initialize(N, k, j, B, h, m, l, d, r): # step 1
 	if N <= 5:
@@ -57,7 +54,6 @@ def initialize(N, k, j, B, h, m, l, d, r): # step 1
 		h = - 1
 		return nextprime(N, k, j, B, h, m, l, d, r) # branches to step 2
 
-
 def nextprime(N, k, j, B, h, m, l, d, r): # step 2
 	m += 1
 	if m > k:
@@ -66,14 +62,12 @@ def nextprime(N, k, j, B, h, m, l, d, r): # step 2
 	else:
 		d = primelist[m]
 		return trialdivide(N, k, j, B, h, m, l, d, r) # branches to step 3
-	
 
 def trialdivide(N, k, j, B, h, m, l, d, r): # step 3
 	r = N % d
 	if r == 0:
 		return [d]
 	return primecheck(N, k, j, B, h, m, l, d, r) # branches to step 4
-	
 
 def primecheck(N, k, j, B, h, m, l, d, r): # step 4
 	if d >= l:
@@ -83,7 +77,6 @@ def primecheck(N, k, j, B, h, m, l, d, r): # step 4
 		return nextprime(N, k, j, B, h, m, l, d, r) # branches to step 2
 	return nextdivisor(N, k, j, B, h, m, l, d, r) # branches to step 5
 
-
 def nextdivisor(N, k, j, B, h, m, l, d, r): # step 5
 	h = (h + 1) % 8
 	d = d + t[h]
@@ -91,9 +84,6 @@ def nextdivisor(N, k, j, B, h, m, l, d, r): # step 5
 		return "remaining divisors are greater than " + str(B)
 	else:
 		return trialdivide(N, k, j, B, h, m, l, d, r) # branches to step 3
-
-
-
 
 def TrialCompleteFactorization(N, B=lastelem):
 	factorlist = []
@@ -110,10 +100,3 @@ def TrialCompleteFactorization(N, B=lastelem):
 		return factorlist
 	elif isinstance(factor, str):
 		return factorlist, 'remaining factors of ' + str(N) + ' are greater than ' + str(B)
-
-
-
-# print(TrialCompleteFactorization(872012557, 100))
-# print(TrialCompleteFactorization(872012557, 1000))
-# print(TrialFactor(2065762, 1500000))
-# print(TrialCompleteFactorization(2065762, 1500000))
