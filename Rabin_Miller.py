@@ -45,5 +45,3 @@ def repeat_test(N, q, t, c, b): # step 4
 		return new_a(N, q, t, c) # branch to step 2
 	else:
 		return 'probably prime'
-
-# print(RM(86028121))
