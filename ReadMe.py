@@ -322,7 +322,8 @@
 # Rabin_Miller.py
 	# RM(N)
 		# Inputs
-			# N, the composite number which we are trying to factor
+			# N, the composite number which we are trying to determine to be prime or 
+				# composite
 		# Outputs
 			# 'composite' meaning that N is certainly composite
 			# 'probably prime' meaning that N is probably prime, but could be 
