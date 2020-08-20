@@ -35,5 +35,3 @@ def finishedcheck(p, a, h, plist): # check if we have found a primitive root
 		return a # done, return
 	else:
 		return checkph(p, a, h, plist) # keep checking exponents
-
-# print(PrimRoot(17))
