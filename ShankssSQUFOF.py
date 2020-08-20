@@ -62,6 +62,3 @@ def outputcheck(N, k, Ph):
 		return f
 	else:
 		return SQUFOF(N, k + 1)
-
-
-# print(SQUFOF(88526117, 1))
