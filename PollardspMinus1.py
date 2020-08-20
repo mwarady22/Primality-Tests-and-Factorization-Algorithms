@@ -4,7 +4,6 @@ from PrimesList import *
 from EuclideanAlgorithm import *
 from PoweringAlgorithms import *
 
-
 def FirstStage(N, B): # runs independently, finds a factor of N only if there is one that is B-powersmooth
 	x = 2
 	g = gcd(x, N)
@@ -22,7 +21,6 @@ def FirstStage(N, B): # runs independently, finds a factor of N only if there is
 			return g
 		h += 1
 	return 'the algorithm did not succeed in spliting N' # B not high enough
-
 
 
 def FirstStageforTwoStage(N, B, x=2): # same as FirstStage, but also outputs x for use in SecondStage
@@ -45,7 +43,6 @@ def FirstStageforTwoStage(N, B, x=2): # same as FirstStage, but also outputs x f
 		h += 1
 	return 'the algorithm did not succeed in spliting N : x = ' + str(x) # B not high enough
 
-
 def secondstageprecomps(B1, B2): # precomputes 
 	z = 0
 	while primelist[z] < B1: # find index of first prime larger than B1
@@ -61,7 +58,6 @@ def secondstageprecomps(B1, B2): # precomputes
 		dlist.append(primelist[y + 1] - primelist[y])
 		y += 1
 	return k1, k2, dlist
-
 
 def SecondStage(N, B1, B2):
 	if B1 > B2: # make sure that B1 is smaller or equal to B2
@@ -129,13 +125,3 @@ def fail(N, k1, k2, bdlist, b, c, P, h, j, x, y): # either fail or go to backtra
 		return 'the algorithm has failed'
 	else:
 		return backtrack(N, k1, k2, bdlist, b, c, P, h, j, x, y, g)
-
-
-
-
-
-# print(FirstStage(1081808912601533, 1000))
-# print(SecondStage(1081808912601533, 100, 1500))
-# print(secondstageprecomps(10, 100))
-# print(FirstStage(10451600021, 10))
-# print(SecondStage(10451600021, 10, 100))
