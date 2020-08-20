@@ -4,11 +4,11 @@ import sys
 # Right-Left Binary powering algorithm.  Computes g**n efficiently. 
 def RLbin(g, n):
 
-	if n == 0:
+	if n == 0: # g**0 = 1
 		return 1
 	elif n < 0:
-		N = - n
-		z = g**-1
+		N = - n # make N positive
+		z = g**-1 # use the inverse of g as z
 	else:
 		N = n
 		z = g
@@ -16,31 +16,28 @@ def RLbin(g, n):
 	y = 1
 
 	while True:
-		if N % 2 == 1:
+		if N % 2 == 1: # if N is odd, multiply it by z
 			y = z * y
 
-		N = floor(N / 2)
+		N = floor(N / 2) # subtracts one if N is odd and divides out a factor of two either way
 		if N == 0:
 			return y
-		z *= z
+		z *= z # square z
 
-	
-
-# Left-Right Binary powering algorithm.  Computes g**n efficiently.  Utilizes the unique integer
-# e such that 2**e <= |n| < 2**e+1.
+# Left-Right Binary powering algorithm.  Computes g**n efficiently.  Utilizes the unique integer e such that 2**e <= |n| < 2**e+1.
 def LRbin(g, n, e):
 
-	if n == 0:
+	if n == 0: # g**0 = 1
 		return 1
 	elif n < 0:
-		N = - n
-		z = g**-1
+		N = - n # make N positive
+		z = g**-1 # use the inverse of g as z
 	else:
 		N = n
 		z = g
 
 	y = z
-	E = 2**e
+	E = 2**e # largest factor of 2 less than n
 	N = N - E
 
 	while True:
@@ -53,38 +50,27 @@ def LRbin(g, n, e):
 			N = N - E
 			y *= z
 
-
-def calculate_e(n):
+def calculate_e(n): # returns e such that 2**e <= |n| < 2**e+1
 	if n == 0:
 		return 0
 	return floor(log(abs(n), 2))
 
-
 def PowerModm(g, n, m):
-	if n == 0:
+	if n == 0: # g**0 = 1
 		return 1 % m
-	if n == 1:
+	if n == 1: # g**1 = g
 		return g % m
 
-	nbin = bin(n)[2:]
-	nbinlen = len(nbin)
+	nbin = bin(n)[2:] # gets integer part of binary n
+	nbinlen = len(nbin) # length of nbin
 
 	g1 = g % m
-	l = [g1]
-	for j in range(1, nbinlen):
+	l = [g1] # list holding powers of g1 from 1 to nbinlen - 1
+	for j in range(1, nbinlen): # fill l
 		l.insert(0, (l[0]**2 % m))
 
 	product = 1
-	for k in range(0, nbinlen):
+	for k in range(0, nbinlen): # multiply g to various powers chosen based on binary n using the list made in l
 		product = product * (l[k]**int(nbin[k])) % m
 
 	return product
-
-
-
-# Control
-
-# print(RLbin(2, -2))
-# print(LRbin(2, -3, 1))
-# print(calculate_e(65))
-# print(PowerModm(32254, 548522, 172522))
