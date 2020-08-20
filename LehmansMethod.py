@@ -6,8 +6,8 @@ from EuclideanAlgorithm import *
 
 def Lehman(N): # finds a factor of N
 
-	B = floor(N**(1 / 3)) # first checks by trial division that there is not a small factor ....
-	trial = TrialFactor(N, B) # .... this ensures that there are at most two factors of N
+	B = floor(N**(1 / 3)) # first checks by trial division that there is not a small factor, ensuring there are at most two factors of N
+	trial = TrialFactor(N, B)
 	if isinstance(trial, list):
 		return trial[0]
 	else:
@@ -37,6 +37,3 @@ def loopa(N, B, k, r, m):
 		if isinstance(b, int):
 			return gcd(a + b, N)
 	return loopk(N, B, k)
-
-
-# print(Lehman(25))
