@@ -52,8 +52,3 @@ def SquareTest(N, q11, q63, q64, q65): # tests if N is a perfect square
 			return q * i
 		else:
 			return q
-
-
-# print(IntSqrt(- 24))
-# a, b, c, d = precomp()
-# print(SquareTest(-63, a, b, c, d))
