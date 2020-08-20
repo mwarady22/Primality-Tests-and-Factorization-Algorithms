@@ -343,7 +343,7 @@
 
 	# SqrtModp(a, p)
 		# Inputs
-			# a, a number we want the square root of mod p
+			# a, a number we want to find the square root of mod p
 			# p, the modulus for this equation
 		# Outputs
 			# x, such that x**2 = a mod p if it exists
