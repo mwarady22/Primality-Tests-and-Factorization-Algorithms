@@ -256,11 +256,3 @@ def chooseq(N, M, largestbaseindex):
 						return pindexplus, primelist[pindexplus]
 					else:
 						pindexplus += 1
-
-
-# print(MPQS(1050703, 100, 1000))
-# print(MPQS(15347, 35, 10000))
-# print(MPQS(15440, 50, 50))
-# print(MPQS(64775585))
-# print(MPQS(539873))
-# print(MPQS(33569887))
