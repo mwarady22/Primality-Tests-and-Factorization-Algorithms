@@ -51,6 +51,4 @@ def redexp(m, y, b, p, x, r, a):
 	r = m % p
 	x = (x * t) % p
 	b = (b * y) % p
-	return findexp(b, p, x, r, a, y) 
-
-# print(SqrtModp(109, 71))
+	return findexp(b, p, x, r, a, y)
